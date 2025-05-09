@@ -1,19 +1,20 @@
 
 
-🗳️ **Meraki Project: NGO Volunteering & Collaboration System**
+# 🗳️ **Meraki Project: NGO Volunteering & Collaboration System**
 
-📌 **Project Title**
+## 📌 **Project Title**
+
 Meraki - NGO Volunteering and Collaboration System
 
-💡 **Project Idea & Description**
+## 💡 **Project Idea & Description**
 This project aims to create a comprehensive platform for NGO organizations and volunteers. The platform will enable organizations to post volunteer opportunities, manage projects, track impact, and engage with volunteers. Volunteers can explore and apply for opportunities, track their contributions, and collaborate with others in the community. The platform will focus on seamless interaction between organizations and volunteers, with features for tracking volunteer hours, feedback systems, and gamification.
 
-**User Roles:**
+## **User Roles:**
 
 * **Admin**: Can manage volunteer opportunities, organizations, and view reports on project impact.
 * **Volunteer**: Can explore opportunities, build a profile, apply for roles, track hours, and collaborate with other volunteers.
 
-**Key Features:**
+## **Key Features:**
 
 * **Volunteer Portal**: Profile management, track hours, explore opportunities.
 * **Admin Dashboard**: Manage organizations, post opportunities, generate reports.
@@ -22,15 +23,15 @@ This project aims to create a comprehensive platform for NGO organizations and v
 * **Real-time Updates**: Feed of new volunteer opportunities and project updates.
 * **Donation & Fundraising**: Secure donation portals and fundraising campaigns.
 
-🧰 **Tech Stack**
-👨‍💻 **Frontend**:
+## 🧰 **Tech Stack**
+### 👨‍💻 **Frontend**:
 
 * React.js – For building the user interface.
 * React Router – For client-side routing.
 * Axios – For API requests.
 * CSS – For styling.
 
-🧠 **Backend**:
+### 🧠 **Backend**:
 
 * Node.js – JavaScript runtime.
 * Express.js – Web framework for Node.js.
@@ -39,12 +40,12 @@ This project aims to create a comprehensive platform for NGO organizations and v
 * JWT (jsonwebtoken) – For user authentication.
 * bcryptjs – For password hashing.
 
-🔐 **Security**:
+### 🔐 **Security**:
 
 * JWT for authentication.
 * HTTPS for secure communication.
 
-🗓️ **20-Day Capstone Plan**
+### 🗓️ **20-Day Capstone Plan**
 
 | **Day**    | **Task**                                                                                             |
 | ---------- | ---------------------------------------------------------------------------------------------------- |
@@ -69,7 +70,7 @@ This project aims to create a comprehensive platform for NGO organizations and v
 | **Day 19** | Full testing: user registration, volunteer application, admin panel, real-time updates.              |
 | **Day 20** | Final documentation, deploy frontend/backend, demo recording, GitHub cleanup, and presentation prep. |
 
-✅ **Final Deliverables**
+## ✅ **Final Deliverables**
 
 * Complete codebase (frontend + backend).
 * Deployed live project links.
@@ -77,4 +78,4 @@ This project aims to create a comprehensive platform for NGO organizations and v
 * Documentation & demo video.
 * GitHub repository link.
 
----
+
