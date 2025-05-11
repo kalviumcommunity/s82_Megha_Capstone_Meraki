@@ -70,12 +70,19 @@ This project aims to create a comprehensive platform for NGO organizations and v
 | **Day 19** | Full testing: user registration, volunteer application, admin panel, real-time updates.              |
 | **Day 20** | Final documentation, deploy frontend/backend, demo recording, GitHub cleanup, and presentation prep. |
 
-## ✅ **Final Deliverables**
 
-* Complete codebase (frontend + backend).
-* Deployed live project links.
-* Figma/Wireframe Designs (Lo-Fi, Mid-Fi, Hi-Fi).
-* Documentation & demo video.
-* GitHub repository link.
+## 🗂️ **GitHub Project Setup**
+* Organized folder structure (/backend, /frontend)
+* Created a GitHub Project Board for task tracking
+* Divided work into clear phases: Planning → Backend → Frontend → Testing → Deployment
+
+
+
+
+## 💬 **Final Note**
+
+**Meraki** is crafted to empower NGOs and volunteers with a seamless, impactful, and innovative platform experience.
+It focuses on accessibility, engagement, and modern design—backed by a robust backend and thoughtful features, making it both community-friendly and developer-friendly. 🌟
+
 
 
