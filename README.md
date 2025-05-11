@@ -77,5 +77,3 @@ This project aims to create a comprehensive platform for NGO organizations and v
 * Figma/Wireframe Designs (Lo-Fi, Mid-Fi, Hi-Fi).
 * Documentation & demo video.
 * GitHub repository link.
-
-
