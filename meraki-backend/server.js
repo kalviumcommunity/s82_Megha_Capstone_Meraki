@@ -23,15 +23,27 @@ app.get('/api/volunteers', (req, res) => {
 // POST endpoint for adding a new NGO
 app.post('/api/ngos', (req, res) => {
     const { name, description } = req.body;
-    // Here, you'd typically save this to a database
     res.status(201).json({ message: 'NGO created successfully!', ngo: { name, description } });
 });
 
 // POST endpoint for adding a new volunteer
 app.post('/api/volunteers', (req, res) => {
     const { name, age } = req.body;
-    // Here, you'd typically save this to a database
     res.status(201).json({ message: 'Volunteer added successfully!', volunteer: { name, age } });
+});
+
+// PUT endpoint to update an NGO's details
+app.put('/api/ngos/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, description } = req.body;
+    res.json({ message: `NGO with ID ${id} updated successfully!`, updatedNgo: { id, name, description } });
+});
+
+// PUT endpoint to update a volunteer's details
+app.put('/api/volunteers/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, age } = req.body;
+    res.json({ message: `Volunteer with ID ${id} updated successfully!`, updatedVolunteer: { id, name, age } });
 });
 
 // Start the server
