@@ -112,8 +112,8 @@ const ProfileSetup = () => {
 
         {/* Submit Button */}
         <button
-          type="submit"
-          className="w-full bg-teal text-soft-white py-2 px-4 rounded-lg font-semibold hover:bg-lush-green transition-all"
+          type="Submit"
+          className="W-full bg-teal text-soft-white py-2 px-4 rounded-lg font-semibold hover:bg-lush-green transition-all"
         >
           Save Profile
         </button>
