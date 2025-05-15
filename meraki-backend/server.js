@@ -19,7 +19,7 @@ const connectDB = async () => {
         console.log('Connected to MongoDB successfully!');
     } catch (error) {
         console.error('Error connecting to MongoDB:', error.message);
-        process.exit(1); // Exit process with failure
+        process.exit(1);
     }
 };
 connectDB();
@@ -32,7 +32,7 @@ app.get('/api/data', (req, res) => {
 // GET endpoint for NGOs
 app.get('/api/ngos', async (req, res) => {
     try {
-        const ngos = await User.find({ type: 'ngo' }); // Assuming 'type' distinguishes NGOs
+        const ngos = await User.find({ role: 'ngo' });
         res.json({ ngos });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -42,7 +42,7 @@ app.get('/api/ngos', async (req, res) => {
 // GET endpoint for Volunteers
 app.get('/api/volunteers', async (req, res) => {
     try {
-        const volunteers = await User.find({ type: 'volunteer' });
+        const volunteers = await User.find({ role: 'volunteer' });
         res.json({ volunteers });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -52,8 +52,14 @@ app.get('/api/volunteers', async (req, res) => {
 // POST endpoint for adding a new NGO
 app.post('/api/ngos', async (req, res) => {
     try {
-        const { name, description } = req.body;
-        const ngo = await User.create({ name, description, type: 'ngo' });
+        const { name, email, password, description } = req.body;
+        const ngo = await User.create({ 
+            name, 
+            email, 
+            password, 
+            role: 'ngo', 
+            bio: description 
+        });
         res.status(201).json({ message: 'NGO created successfully!', ngo });
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -63,8 +69,14 @@ app.post('/api/ngos', async (req, res) => {
 // POST endpoint for adding a new volunteer
 app.post('/api/volunteers', async (req, res) => {
     try {
-        const { name, age } = req.body;
-        const volunteer = await User.create({ name, age, type: 'volunteer' });
+        const { name, email, password, age } = req.body;
+        const volunteer = await User.create({ 
+            name, 
+            email, 
+            password, 
+            role: 'volunteer',
+            bio: age ? `Age: ${age}` : '' 
+        });
         res.status(201).json({ message: 'Volunteer added successfully!', volunteer });
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -75,10 +87,10 @@ app.post('/api/volunteers', async (req, res) => {
 app.put('/api/ngos/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, description } = req.body;
+        const { name, email, password, description } = req.body;
         const updatedNgo = await User.findByIdAndUpdate(
             id,
-            { name, description },
+            { name, email, password, bio: description },
             { new: true }
         );
         res.json({ message: `NGO with ID ${id} updated successfully!`, updatedNgo });
@@ -91,10 +103,10 @@ app.put('/api/ngos/:id', async (req, res) => {
 app.put('/api/volunteers/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, age } = req.body;
+        const { name, email, password, age } = req.body;
         const updatedVolunteer = await User.findByIdAndUpdate(
             id,
-            { name, age },
+            { name, email, password, bio: age ? `Age: ${age}` : '' },
             { new: true }
         );
         res.json({ message: `Volunteer with ID ${id} updated successfully!`, updatedVolunteer });
