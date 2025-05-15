@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// User Schema (for volunteers and voters)
+// User Schema (for volunteers, voters, ngos)
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema({
   profileImage: { type: String }, // URL to profile picture
   bio: { type: String },
   blockchainAddress: { type: String, unique: true }, // For blockchain integration
+  // New: link volunteers to events they're part of
+  eventsParticipated: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
 }, { timestamps: true });
 
 // NGO Schema
@@ -18,12 +20,15 @@ const ngoSchema = new mongoose.Schema({
   description: { type: String },
   location: { type: String },
   contactEmail: { type: String, required: true, unique: true },
+  // Projects as subdocuments with reference to related events and volunteers
   projects: [{
     name: String,
     description: String,
     startDate: Date,
     endDate: Date,
     status: { type: String, enum: ['ongoing', 'completed'], default: 'ongoing' },
+    events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],  // Link Events to Projects
+    volunteers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Volunteers linked to projects
   }],
   createdAt: { type: Date, default: Date.now },
 });
@@ -34,8 +39,9 @@ const eventSchema = new mongoose.Schema({
   description: { type: String },
   date: { type: Date, required: true },
   location: { type: String },
-  ngo: { type: mongoose.Schema.Types.ObjectId, ref: 'NGO', required: true },
-  volunteers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  ngo: { type: mongoose.Schema.Types.ObjectId, ref: 'NGO', required: true }, // Which NGO organizes the event
+  volunteers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],       // Volunteers attending event
+  project: { type: mongoose.Schema.Types.ObjectId, ref: 'Project' },        // Optional link to a project
 }, { timestamps: true });
 
 // Voting Schema
