@@ -10,10 +10,13 @@ const OpenAI = require('openai');
 const NGO = require('./models/NGO');
 const Volunteer = require('./models/Volunteer');
 
+
 // Routes
 const topkRoutes = require('./routes/topk');
 const structuredOutputRoutes = require('../routes/structuredOutput');
 const stopSequenceRoutes = require('../routes/stopSequence');
+app.use('/api/embedding', require('../routes/embedding'));
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
