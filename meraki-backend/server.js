@@ -1,13 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose'); 
+const cors = require('cors');
+const OpenAI = require('openai');
 const { User } = require('./models'); 
 
 const app = express();
 const PORT = 5000;
 
-// Middleware to parse incoming JSON data
+// Middleware
 app.use(express.json());
+app.use(cors());
 
 // MongoDB connection
 const connectDB = async () => {
@@ -16,20 +19,25 @@ const connectDB = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-        console.log('Connected to MongoDB successfully!');
+        console.log('✅ Connected to MongoDB successfully!');
     } catch (error) {
-        console.error('Error connecting to MongoDB:', error.message);
+        console.error('❌ Error connecting to MongoDB:', error.message);
         process.exit(1);
     }
 };
 connectDB();
 
-// Sample GET endpoint for API data
+// OpenAI client
+const client = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Sample GET endpoint
 app.get('/api/data', (req, res) => {
     res.json({ message: 'Welcome to Meraki API!', data: [] });
 });
 
-// GET endpoint for NGOs
+// GET NGOs
 app.get('/api/ngos', async (req, res) => {
     try {
         const ngos = await User.find({ role: 'ngo' });
@@ -39,7 +47,7 @@ app.get('/api/ngos', async (req, res) => {
     }
 });
 
-// GET endpoint for Volunteers
+// GET Volunteers
 app.get('/api/volunteers', async (req, res) => {
     try {
         const volunteers = await User.find({ role: 'volunteer' });
@@ -49,7 +57,7 @@ app.get('/api/volunteers', async (req, res) => {
     }
 });
 
-// POST endpoint for adding a new NGO
+// POST NGO
 app.post('/api/ngos', async (req, res) => {
     try {
         const { name, email, password, description } = req.body;
@@ -66,7 +74,7 @@ app.post('/api/ngos', async (req, res) => {
     }
 });
 
-// POST endpoint for adding a new volunteer
+// POST Volunteer
 app.post('/api/volunteers', async (req, res) => {
     try {
         const { name, email, password, age } = req.body;
@@ -83,7 +91,7 @@ app.post('/api/volunteers', async (req, res) => {
     }
 });
 
-// PUT endpoint to update an NGO's details
+// PUT NGO
 app.put('/api/ngos/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -99,7 +107,7 @@ app.put('/api/ngos/:id', async (req, res) => {
     }
 });
 
-// PUT endpoint to update a volunteer's details
+// PUT Volunteer
 app.put('/api/volunteers/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -115,7 +123,27 @@ app.put('/api/volunteers/:id', async (req, res) => {
     }
 });
 
-// Start the server
+// ✅ Zero-shot prompting
+app.post('/api/zeroshot', async (req, res) => {
+    try {
+        const { userInput } = req.body;
+
+        const response = await client.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+                { role: "system", content: "You are a helpful assistant for the Meraki NGO-Volunteer platform." },
+                { role: "user", content: userInput }
+            ],
+        });
+
+        res.json({ reply: response.choices[0].message.content });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to fetch AI response" });
+    }
+});
+
+// Start server
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
