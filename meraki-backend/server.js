@@ -18,7 +18,10 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => console.log("✅ MongoDB connected"))
   .catch(err => console.error("❌ MongoDB connection error:", err.message));
 
@@ -32,7 +35,7 @@ app.get('/api/data', (req, res) => {
   res.json({ message: 'Welcome to the Meraki API!' });
 });
 
-// 🔹 NGOs route (fetch from DB)
+// 🔹 NGOs route
 app.get('/api/ngos', async (req, res) => {
   try {
     const ngos = await NGO.find();
@@ -43,7 +46,7 @@ app.get('/api/ngos', async (req, res) => {
   }
 });
 
-// 🔹 Volunteers route (fetch from DB)
+// 🔹 Volunteers route
 app.get('/api/volunteers', async (req, res) => {
   try {
     const volunteers = await Volunteer.find();
@@ -64,7 +67,7 @@ app.post('/api/zeroshot', async (req, res) => {
     }
 
     const response = await client.chat.completions.create({
-      model: "gpt-4o-mini", // or "gpt-4" / "gpt-3.5-turbo"
+      model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "You are a helpful assistant for the Meraki NGO-Volunteer platform." },
         { role: "user", content: userInput }
