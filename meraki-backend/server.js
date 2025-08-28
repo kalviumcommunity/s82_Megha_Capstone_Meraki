@@ -1,21 +1,16 @@
-// server.js
-
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const OpenAI = require('openai');
-
-// Models
-const NGO = require('./models/NGO');
-const Volunteer = require('./models/Volunteer');
+const { User } = require('./models');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
@@ -32,28 +27,60 @@ const client = new OpenAI({
 
 // 🔹 Test route
 app.get('/api/data', (req, res) => {
-  res.json({ message: 'Welcome to the Meraki API!' });
+  res.json({ message: 'Welcome to Meraki API!', data: [] });
 });
 
-// 🔹 NGOs route
+// 🔹 GET NGOs
 app.get('/api/ngos', async (req, res) => {
   try {
-    const ngos = await NGO.find();
+    const ngos = await User.find({ role: 'ngo' });
     res.json({ ngos });
   } catch (error) {
-    console.error("❌ Error fetching NGOs:", error.message);
-    res.status(500).json({ error: "Failed to fetch NGOs" });
+    res.status(500).json({ error: error.message });
   }
 });
 
-// 🔹 Volunteers route
+// 🔹 GET Volunteers
 app.get('/api/volunteers', async (req, res) => {
   try {
-    const volunteers = await Volunteer.find();
+    const volunteers = await User.find({ role: 'volunteer' });
     res.json({ volunteers });
   } catch (error) {
-    console.error("❌ Error fetching Volunteers:", error.message);
-    res.status(500).json({ error: "Failed to fetch Volunteers" });
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 🔹 POST NGO
+app.post('/api/ngos', async (req, res) => {
+  try {
+    const { name, email, password, description } = req.body;
+    const ngo = await User.create({
+      name,
+      email,
+      password,
+      role: 'ngo',
+      bio: description,
+    });
+    res.status(201).json({ message: 'NGO created successfully!', ngo });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// 🔹 POST Volunteer
+app.post('/api/volunteers', async (req, res) => {
+  try {
+    const { name, email, password, age } = req.body;
+    const volunteer = await User.create({
+      name,
+      email,
+      password,
+      role: 'volunteer',
+      bio: age ? `Age: ${age}` : '',
+    });
+    res.status(201).json({ message: 'Volunteer added successfully!', volunteer });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -81,7 +108,7 @@ app.post('/api/zeroshot', async (req, res) => {
   }
 });
 
-// Start the server
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
