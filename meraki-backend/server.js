@@ -8,6 +8,7 @@ const OpenAI = require('openai');
 const topkRoutes = require('./routes/topk');
 const structuredOutputRoutes = require('../routes/structuredOutput');
 const stopSequenceRoutes = require('../routes/stopSequence');
+const embeddingRoutes = require('../routes/embedding');
 
 // Models
 const { User } = require('./models');
@@ -23,6 +24,7 @@ app.use(cors());
 app.use('/api/topk', topkRoutes);
 app.use('/api/structured-output', structuredOutputRoutes);
 app.use('/api/stop-sequence', stopSequenceRoutes);
+app.use('/api/embedding', embeddingRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
