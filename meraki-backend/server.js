@@ -5,13 +5,15 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const OpenAI = require('openai');
-app.use('/api/topk', require('./routes/topk'));
-app.use('/api/structured-output', require('./routes/structuredOutput'));
-
 
 // Models
 const NGO = require('./models/NGO');
 const Volunteer = require('./models/Volunteer');
+
+// Routes
+const topkRoutes = require('./routes/topk');
+const structuredOutputRoutes = require('../routes/structuredOutput');
+const stopSequenceRoutes = require('../routes/stopSequence');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,6 +21,11 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// 🔹 API Routes
+app.use('/api/topk', topkRoutes);
+app.use('/api/structured-output', structuredOutputRoutes);
+app.use('/api/stop-sequence', stopSequenceRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
