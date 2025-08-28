@@ -4,6 +4,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const OpenAI = require('openai');
 
+// Routes
+const topkRoutes = require('./routes/topk');
+const structuredOutputRoutes = require('../routes/structuredOutput');
+const stopSequenceRoutes = require('../routes/stopSequence');
+
+// Models
+const { User } = require('./models');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -11,12 +19,10 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
-// ✅ Routes from structured-output-feature branch
-app.use('/api/topk', require('./routes/topk'));
-app.use('/api/structured-output', require('./routes/structuredOutput'));
-
-// Models
-const { User } = require('./models');
+// 🔹 API Routes
+app.use('/api/topk', topkRoutes);
+app.use('/api/structured-output', structuredOutputRoutes);
+app.use('/api/stop-sequence', stopSequenceRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
