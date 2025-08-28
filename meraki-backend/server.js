@@ -5,6 +5,9 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const OpenAI = require('openai');
+app.use('/api/topk', require('./routes/topk'));
+app.use('/api/structured-output', require('./routes/structuredOutput'));
+
 
 // Models
 const NGO = require('./models/NGO');
