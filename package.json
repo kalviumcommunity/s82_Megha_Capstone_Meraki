@@ -1,0 +1,14 @@
+{
+    "name": "meraki-monorepo",
+    "version": "1.0.0",
+    "description": "Monorepo for Meraki Platform",
+    "scripts": {
+        "install:all": "npm install --prefix frontend && npm install --prefix backend",
+        "dev:frontend": "npm run dev --prefix frontend",
+        "dev:backend": "npm run dev --prefix backend",
+        "start:backend": "npm start --prefix backend"
+    },
+    "devDependencies": {
+        "concurrently": "^8.0.1"
+    }
+}

@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-size: 16px;
+
+  /* Meraki Brand Colors */
+  --royal-purple: #5B3DF5;
+  --indigo: #3A55D9;
+  --electric-pink: #FF4D8D;
+  --lavender: #E6E6FA;
+  --soft-gray: #F4F6F8;
+
+  --background: #F4F6F8;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --primary: #5B3DF5;
+  --primary-foreground: #ffffff;
+  --secondary: #3A55D9;
+  --secondary-foreground: #ffffff;
+  --muted: #E6E6FA;
+  --muted-foreground: #6b7280;
+  --accent: #FF4D8D;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: transparent;
+  --input-background: #ffffff;
+  --switch-background: #cbced4;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #5B3DF5;
+  --chart-1: #5B3DF5;
+  --chart-2: #3A55D9;
+  --chart-3: #FF4D8D;
+  --chart-4: #E6E6FA;
+  --chart-5: #8b5cf6;
+  --radius: 0.75rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #5B3DF5;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #F4F6F8;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #5B3DF5;
+}
+
+.dark {
+  --background: #0f0f0f;
+  --foreground: #f5f5f5;
+  --card: #1a1a1a;
+  --card-foreground: #f5f5f5;
+  --popover: #1a1a1a;
+  --popover-foreground: #f5f5f5;
+  --primary: #7c5dfa;
+  --primary-foreground: #ffffff;
+  --secondary: #4a66e8;
+  --secondary-foreground: #ffffff;
+  --muted: #2a2a2a;
+  --muted-foreground: #a1a1aa;
+  --accent: #ff6ba0;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #2a2a2a;
+  --input: #2a2a2a;
+  --ring: #7c5dfa;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: #7c5dfa;
+  --chart-2: #4a66e8;
+  --chart-3: #ff6ba0;
+  --chart-4: #E6E6FA;
+  --chart-5: #a78bfa;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #f5f5f5;
+  --sidebar-primary: #7c5dfa;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2a2a2a;
+  --sidebar-accent-foreground: #f5f5f5;
+  --sidebar-border: #2a2a2a;
+  --sidebar-ring: #7c5dfa;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    outline-color: rgb(var(--ring) / 0.5);
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    @apply text-2xl leading-normal;
+    font-weight: var(--font-weight-medium);
+  }
+
+  h2 {
+    @apply text-xl leading-normal;
+    font-weight: var(--font-weight-medium);
+  }
+
+  h3 {
+    @apply text-lg leading-normal;
+    font-weight: var(--font-weight-medium);
+  }
+
+  h4 {
+    @apply text-base leading-normal;
+    font-weight: var(--font-weight-medium);
+  }
+
+  label {
+    @apply text-base leading-normal;
+    font-weight: var(--font-weight-medium);
+  }
+
+  button {
+    @apply text-base leading-normal;
+    font-weight: var(--font-weight-medium);
+  }
+
+  input {
+    @apply text-base leading-normal;
+    font-weight: var(--font-weight-normal);
+  }
+}
