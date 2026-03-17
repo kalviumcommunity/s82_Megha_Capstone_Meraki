@@ -9,8 +9,7 @@ const platformLinks = [
 ];
 
 const learningLinks = [
-    { label: "Training Hub", path: "/training", icon: GraduationCap, desc: "Build impact skills", color: "text-blue-500 bg-blue-50" },
-    { label: "Certifications", path: "/training#certifications", icon: Target, desc: "Verify your expertise", color: "text-green-500 bg-green-50" }
+    { label: "Training Hub", path: "/training", icon: GraduationCap, desc: "Build impact skills", color: "text-blue-500 bg-blue-50" }
 ];
 
 export default function MegaMenu() {
