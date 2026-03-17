@@ -11,7 +11,7 @@ export default function DonationForm({ selectedCampaign }) {
 
     if (!selectedCampaign) {
         return (
-            <div className="bg-white rounded-3xl p-8 border-2 border-dashed border-gray-200 text-center sticky top-24 transition-all duration-300">
+            <div className="bg-white rounded-3xl p-8 border-2 border-dashed border-gray-200 text-center transition-all duration-300">
                 <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Heart className="w-10 h-10 text-gray-300 mx-auto" strokeWidth={1.5} />
                 </div>
@@ -39,7 +39,7 @@ export default function DonationForm({ selectedCampaign }) {
     const progress = Math.min((selectedCampaign.raised / selectedCampaign.goal) * 100, 100);
 
     return (
-        <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-xl shadow-gray-200/50 sticky top-24">
+        <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-xl shadow-gray-200/50">
             <h3 className="text-2xl font-bold mb-6 text-gray-900">Complete Donation</h3>
 
             <div className="space-y-8">
