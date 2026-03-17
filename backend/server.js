@@ -4,6 +4,10 @@ const cors = require('cors');
 const morgan = require('morgan');
 const connectDB = require('./src/config/db');
 const userRoutes = require('./src/routes/userRoutes');
+const opportunityRoutes = require('./src/routes/opportunityRoutes');
+const communityRoutes = require('./src/routes/communityRoutes');
+const trainingRoutes = require('./src/routes/trainingRoutes');
+const donationRoutes = require('./src/routes/donationRoutes');
 
 // Connect to Database
 connectDB();
@@ -16,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Routes
+// DB Status & API Interceptor Middleware
 app.use((req, res, next) => {
     const mongoose = require('mongoose');
     if (mongoose.connection.readyState !== 1 && req.path.startsWith('/api/')) {
@@ -32,16 +36,27 @@ app.use((req, res, next) => {
     next();
 });
 
+// Routes
 app.use('/api/users', userRoutes);
+app.use('/api/opportunities', opportunityRoutes);
+app.use('/api/community', communityRoutes);
+app.use('/api/hub', trainingRoutes);
+app.use('/api/donations', donationRoutes);
 
-// Placeholder Routes for other modules
+// General API info
 app.get('/', (req, res) => {
-    res.json({ message: "Welcome to Meraki API", version: "1.0.0" });
-});
-
-// Opportunities Routes (Placeholder)
-app.get('/api/opportunities', (req, res) => {
-    res.json({ opportunities: [], message: "Opportunities endpoint placeholder" });
+    res.json({
+        message: "Welcome to Meraki API",
+        version: "1.0.0",
+        endpoints: [
+            "/api/users",
+            "/api/opportunities",
+            "/api/community",
+            "/api/hub/events",
+            "/api/hub/courses",
+            "/api/donations"
+        ]
+    });
 });
 
 // Start Server
