@@ -16,3 +16,4 @@ export function ImageWithFallback({ src, alt, className, ...props }) {
         />
     );
 }
+export default ImageWithFallback

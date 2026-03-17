@@ -5,14 +5,16 @@ import Sidebar from './Sidebar';
 
 export default function DashboardLayout() {
     return (
-        <div className="min-h-screen bg-background flex flex-col font-sans">
+        <div className="min-h-screen bg-background">
             <Navbar />
-            <div className="flex flex-1">
-                <Sidebar />
-                <main className="flex-1 overflow-y-auto p-4 md:p-8">
-                    <Outlet />
-                </main>
+            <div className="max-w-[1440px] mx-auto px-6 lg:px-12 pt-16">
+                <div className="flex min-h-[calc(100vh-64px)]">
+                    {/* Page Content */}
+                    <main className="flex-1 min-w-0 py-8">
+                        <Outlet />
+                    </main>
+                </div>
             </div>
         </div>
     );
-}
+};

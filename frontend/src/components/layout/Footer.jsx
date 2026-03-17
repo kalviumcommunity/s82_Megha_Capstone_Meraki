@@ -1,125 +1,88 @@
+import { Heart, Mail, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Heart, Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react";
+
+// Modular Footer Components
+import FooterBrand from "./FooterBrand";
+import FooterLinks from "./FooterLinks";
+import FooterSocial from "./FooterSocial";
+import FooterNewsletter from "./FooterNewsletter";
 
 export function Footer() {
     return (
-        <footer className="bg-white border-t border-border mt-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                    {/* Brand */}
-                    <div className="lg:col-span-2">
-                        <Link to="/" className="flex items-center gap-2 mb-4">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                                <Heart className="w-6 h-6 text-white fill-white" />
-                            </div>
-                            <span className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                                Meraki
-                            </span>
-                        </Link>
-                        <p className="text-muted-foreground mb-4 max-w-sm">
-                            Connecting volunteers and organizations to create meaningful social impact. Together, we build stronger communities.
-                        </p>
-                        <div className="flex gap-4">
-                            <a href="#" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                                <Facebook className="w-5 h-5" />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                                <Twitter className="w-5 h-5" />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                                <Instagram className="w-5 h-5" />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                                <Linkedin className="w-5 h-5" />
-                            </a>
+        <footer className="bg-white border-t border-gray-100 mt-24 pt-20 pb-12 overflow-hidden relative">
+            {/* Background Accent */}
+            <div className="absolute top-0 right-0 w-[30%] h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
+
+            <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+                {/* Top Section: Brand + Links + Newsletter */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-16">
+                    {/* Left: Brand & Social */}
+                    <div className="lg:col-span-4 flex flex-col gap-10">
+                        <FooterBrand />
+                        <div className="flex flex-col gap-4">
+                            <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Connect with us</h4>
+                            <FooterSocial />
                         </div>
                     </div>
 
-                    {/* Quick Links */}
-                    <div>
-                        <h4 className="mb-4">Platform</h4>
-                        <ul className="space-y-2">
-                            <li>
-                                <Link to="/opportunities" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Find Opportunities
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/events" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Events
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/community" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Community
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/training" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Training Hub
-                                </Link>
-                            </li>
-                        </ul>
+                    {/* Middle: Categorized Links */}
+                    <div className="lg:col-span-5">
+                        <FooterLinks />
                     </div>
 
-                    {/* Resources */}
-                    <div>
-                        <h4 className="mb-4">Resources</h4>
-                        <ul className="space-y-2">
-                            <li>
-                                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                                    About Us
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Blog
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Help Center
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Contact Us
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    {/* Right: Newsletter */}
+                    <div className="lg:col-span-3">
+                        <FooterNewsletter />
 
-                    {/* Legal */}
-                    <div>
-                        <h4 className="mb-4">Legal</h4>
-                        <ul className="space-y-2">
-                            <li>
-                                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Privacy Policy
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Terms of Service
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Cookie Policy
-                                </a>
-                            </li>
-                        </ul>
+                        {/* Partner Badge Placeholder */}
+                        <div className="mt-12 p-5 bg-gray-50/50 border border-gray-100 rounded-3xl group cursor-pointer hover:bg-white hover:shadow-xl hover:shadow-gray-200/40 transition-all">
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <div className="w-4 h-4 bg-blue-500 rounded-sm italic text-[8px] font-black text-white flex items-center justify-center">UN</div>
+                                </div>
+                                <span className="text-[10px] font-black text-gray-900 uppercase tracking-widest leading-none">Global Compact</span>
+                            </div>
+                            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wider leading-relaxed">
+                                Supporting Sustainable Development Goals for modern community resilience.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div className="border-t border-border mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <p className="text-muted-foreground text-sm">
-                        © 2026 Meraki. All rights reserved.
-                    </p>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Mail className="w-4 h-4" />
-                        <span>contact@meraki.org</span>
+                {/* Bottom Section: Copyright & Legal Utilities */}
+                <div className="border-t border-gray-100 pt-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div className="flex flex-col items-center md:items-start gap-2">
+                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                            © 2026 Meraki. Designed with <Heart className="inline w-3 h-3 text-rose-500 fill-rose-500 mx-1" /> for communities.
+                        </p>
+                        <div className="flex items-center gap-4">
+                            <Link to="/privacy" className="text-[10px] font-black text-gray-300 hover:text-primary transition-colors uppercase tracking-widest">Privacy Policy</Link>
+                            <div className="w-1 h-1 bg-gray-200 rounded-full" />
+                            <Link to="/terms" className="text-[10px] font-black text-gray-300 hover:text-primary transition-colors uppercase tracking-widest">Terms of Service</Link>
+                            <div className="w-1 h-1 bg-gray-200 rounded-full" />
+                            <Link to="/cookies" className="text-[10px] font-black text-gray-300 hover:text-primary transition-colors uppercase tracking-widest">Cookies</Link>
+                        </div>
                     </div>
+
+                    <div className="flex items-center gap-8">
+                        <div className="flex flex-col items-end gap-1">
+                            <span className="text-[9px] font-black text-gray-300 uppercase tracking-[0.2em]">Contact Support</span>
+                            <div className="flex items-center gap-2 text-sm font-black text-gray-900 group">
+                                <Mail className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+                                <span>hello@meraki.org</span>
+                            </div>
+                        </div>
+                        <div className="h-10 w-px bg-gray-100 hidden md:block" />
+                        <div className="flex items-center gap-2 px-4 py-2 bg-primary/5 rounded-2xl border border-primary/10">
+                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                            <span className="text-[10px] font-black text-primary uppercase tracking-widest">Platform Operational</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Decorative Text */}
+                <div className="absolute bottom-[-2.5rem] right-[-2.5rem] text-[10rem] font-black text-gray-50/50 pointer-events-none select-none tracking-tighter italic">
+                    meraki
                 </div>
             </div>
         </footer>

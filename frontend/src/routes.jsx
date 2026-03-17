@@ -12,6 +12,7 @@ import Events from "./pages/Events";
 import TrainingHub from "./pages/TrainingHub";
 import DonationPage from "./pages/DonationPage";
 import UserProfile from "./pages/UserProfile";
+import Settings from "./pages/Settings";
 
 export const router = createBrowserRouter([
     {
@@ -38,7 +39,9 @@ export const router = createBrowserRouter([
             { path: "/events", Component: Events },
             { path: "/training", Component: TrainingHub },
             { path: "/donations", Component: DonationPage },
+            { path: "/profile", Component: UserProfile },
             { path: "/profile/:userId", Component: UserProfile },
+            { path: "/settings", Component: Settings },
         ],
     },
 ]);
