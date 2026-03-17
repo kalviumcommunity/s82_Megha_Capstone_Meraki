@@ -36,10 +36,7 @@ export default function LoginForm({ onSubmit, isLoading, onOpenForgot }) {
                 />
                 <label
                     htmlFor="email"
-                    className={`absolute left-12 top-4 text-xs font-black uppercase tracking-widest text-gray-400 transition-all duration-200 pointer-events-none
-                        peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-placeholder-shown:font-bold
-                        peer-focus:top-4 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:font-black peer-focus:text-primary
-                    `}
+                    className="absolute left-12 top-1/2 -translate-y-1/2 text-sm font-bold uppercase tracking-widest text-gray-400 transition-all duration-200 pointer-events-none peer-focus:opacity-0 peer-[:not(:placeholder-shown)]:opacity-0"
                 >
                     Email Address
                 </label>
@@ -68,10 +65,7 @@ export default function LoginForm({ onSubmit, isLoading, onOpenForgot }) {
                 />
                 <label
                     htmlFor="password"
-                    className={`absolute left-12 top-4 text-xs font-black uppercase tracking-widest text-gray-400 transition-all duration-200 pointer-events-none
-                        peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-placeholder-shown:font-bold
-                        peer-focus:top-4 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:font-black peer-focus:text-primary
-                    `}
+                    className="absolute left-12 top-1/2 -translate-y-1/2 text-sm font-bold uppercase tracking-widest text-gray-400 transition-all duration-200 pointer-events-none peer-focus:opacity-0 peer-[:not(:placeholder-shown)]:opacity-0"
                 >
                     Password
                 </label>

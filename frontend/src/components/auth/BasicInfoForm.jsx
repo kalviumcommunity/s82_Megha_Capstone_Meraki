@@ -37,7 +37,7 @@ export default function BasicInfoForm({ role, onNext, onBack, initialData }) {
                         className="w-full pl-12 pr-4 pt-6 pb-2 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all peer"
                         required
                     />
-                    <label htmlFor="name" className="absolute left-12 top-4 text-xs font-black uppercase tracking-widest text-gray-400 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-4 peer-focus:-translate-y-0 peer-focus:text-primary">
+                    <label htmlFor="name" className="absolute left-12 top-1/2 -translate-y-1/2 text-sm font-black uppercase tracking-widest text-gray-400 transition-all pointer-events-none peer-focus:opacity-0 peer-[:not(:placeholder-shown)]:opacity-0">
                         {role === "volunteer" ? "Full Name" : "Organization Name"}
                     </label>
                 </div>
@@ -58,7 +58,7 @@ export default function BasicInfoForm({ role, onNext, onBack, initialData }) {
                         className="w-full pl-12 pr-4 pt-6 pb-2 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all peer"
                         required
                     />
-                    <label htmlFor="email" className="absolute left-12 top-4 text-xs font-black uppercase tracking-widest text-gray-400 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-4 peer-focus:-translate-y-0 peer-focus:text-primary">
+                    <label htmlFor="email" className="absolute left-12 top-1/2 -translate-y-1/2 text-sm font-black uppercase tracking-widest text-gray-400 transition-all pointer-events-none peer-focus:opacity-0 peer-[:not(:placeholder-shown)]:opacity-0">
                         Email Address
                     </label>
                 </div>
@@ -77,7 +77,7 @@ export default function BasicInfoForm({ role, onNext, onBack, initialData }) {
                             className="w-full px-4 pt-6 pb-2 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all peer"
                             required
                         />
-                        <label htmlFor="password" className="absolute left-4 top-4 text-xs font-black uppercase tracking-widest text-gray-400 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-4 peer-focus:-translate-y-0 peer-focus:text-primary">
+                        <label htmlFor="password" className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-black uppercase tracking-widest text-gray-400 transition-all pointer-events-none peer-focus:opacity-0 peer-[:not(:placeholder-shown)]:opacity-0">
                             Password
                         </label>
                     </div>
@@ -93,7 +93,7 @@ export default function BasicInfoForm({ role, onNext, onBack, initialData }) {
                             `}
                             required
                         />
-                        <label htmlFor="confirmPassword" className="absolute left-4 top-4 text-xs font-black uppercase tracking-widest text-gray-400 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-4 peer-focus:-translate-y-0 peer-focus:text-primary">
+                        <label htmlFor="confirmPassword" className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-black uppercase tracking-widest text-gray-400 transition-all pointer-events-none peer-focus:opacity-0 peer-[:not(:placeholder-shown)]:opacity-0">
                             Confirm
                         </label>
                     </div>
