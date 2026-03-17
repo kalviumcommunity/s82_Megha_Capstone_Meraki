@@ -84,7 +84,7 @@ export default function Login() {
                 {/* Footer Links */}
                 <p className="text-center text-xs font-bold text-gray-400 uppercase tracking-widest">
                     New to the journey?{" "}
-                    <Link to="/register" className="text-primary hover:underline decoration-2 underline-offset-4 font-black">
+                    <Link to="/signup" className="text-primary hover:underline decoration-2 underline-offset-4 font-black">
                         Create Account
                     </Link>
                 </p>
