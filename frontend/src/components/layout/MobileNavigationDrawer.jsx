@@ -1,7 +1,9 @@
 import { X, Heart, Zap, Calendar, Users, GraduationCap, Target, Mail, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
-export default function MobileNavigationDrawer({ isOpen, onClose, user }) {
+export default function MobileNavigationDrawer({ isOpen, onClose }) {
+    const { user, logout } = useAuth();
     if (!isOpen) return null;
 
     return (
@@ -73,13 +75,18 @@ export default function MobileNavigationDrawer({ isOpen, onClose, user }) {
                     {user ? (
                         <>
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center font-black">S</div>
+                                <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center font-black">
+                                    {user.name.charAt(0)}
+                                </div>
                                 <div className="flex flex-col">
-                                    <span className="text-sm font-black text-gray-900">Sarah Anderson</span>
-                                    <span className="text-[10px] font-black text-primary uppercase tracking-widest">Volunteer</span>
+                                    <span className="text-sm font-black text-gray-900">{user.name}</span>
+                                    <span className="text-[10px] font-black text-primary uppercase tracking-widest">{user.role || "Volunteer"}</span>
                                 </div>
                             </div>
-                            <button className="flex items-center gap-3 w-full px-4 py-3 text-sm font-black text-rose-500 bg-white border border-rose-100 rounded-2xl">
+                            <button
+                                onClick={() => { logout(); onClose(); }}
+                                className="flex items-center gap-3 w-full px-4 py-3 text-sm font-black text-rose-500 bg-white border border-rose-100 rounded-2xl"
+                            >
                                 <LogOut className="w-4 h-4" /> Sign Out
                             </button>
                         </>

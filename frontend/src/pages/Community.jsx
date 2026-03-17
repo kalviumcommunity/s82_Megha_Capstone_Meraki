@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { ImageWithFallback } from "../components/ui/ImageWithFallback";
 import {
     Heart, MessageCircle, Share2, Send, Image as ImageIcon, Smile,
@@ -173,7 +174,7 @@ function CommentSection({ comments, postId }) {
             </div>
             <div className="flex gap-2.5 items-center">
                 <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                    You
+                    {user?.name?.charAt(0) || "U"}
                 </div>
                 <div className="flex-1 flex items-center gap-2 bg-muted/50 rounded-xl px-3 py-2">
                     <input
@@ -361,7 +362,7 @@ function CreatePostBox({ onPost }) {
         <div className="bg-white rounded-2xl border border-border p-5 mb-5">
             <div className="flex gap-3">
                 <div className="w-11 h-11 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                    You
+                    {user?.name?.charAt(0) || "U"}
                 </div>
                 <div className="flex-1">
                     <textarea
@@ -410,8 +411,8 @@ function CreatePostBox({ onPost }) {
                             onClick={handlePost}
                             disabled={!content.trim()}
                             className={`flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold transition-all ${content.trim()
-                                    ? "bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg hover:shadow-primary/25"
-                                    : "bg-muted text-muted-foreground cursor-not-allowed"
+                                ? "bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg hover:shadow-primary/25"
+                                : "bg-muted text-muted-foreground cursor-not-allowed"
                                 }`}
                             aria-label="Publish post"
                         >
@@ -427,15 +428,16 @@ function CreatePostBox({ onPost }) {
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function CommunityFeed() {
+    const { user } = useAuth();
     const [posts, setPosts] = useState(INITIAL_POSTS);
     const [activeTag, setActiveTag] = useState(null);
 
     const handleNewPost = useCallback((content) => {
         const newPost = {
             id: Date.now(),
-            author: "You",
-            role: "Volunteer",
-            avatar: "You",
+            author: user?.name || "You",
+            role: user?.role || "Volunteer",
+            avatar: user?.name?.charAt(0) || "U",
             avatarGradient: "from-primary to-secondary",
             verified: false,
             badge: "🌟 Community Member",
@@ -566,8 +568,8 @@ export default function CommunityFeed() {
                                         key={tag}
                                         onClick={() => setActiveTag(activeTag === tag ? null : tag)}
                                         className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all text-sm ${activeTag === tag
-                                                ? "bg-primary text-white"
-                                                : "hover:bg-muted text-foreground"
+                                            ? "bg-primary text-white"
+                                            : "hover:bg-muted text-foreground"
                                             }`}
                                         aria-pressed={activeTag === tag}
                                     >

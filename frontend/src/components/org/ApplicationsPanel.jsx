@@ -3,7 +3,7 @@ import { Check, X, Eye, Filter } from "lucide-react";
 
 const applicants = [
     { id: 1, name: "John Doe", initials: "JD", role: "Community Garden Initiative", time: "2 hours ago", skills: ["Gardening", "Leadership"], level: "Experienced", gradient: "from-primary to-secondary" },
-    { id: 2, name: "Sarah Miller", initials: "SM", role: "Food Bank Distribution", time: "5 hours ago", skills: ["Logistics", "Teamwork"], level: "Intermediate", gradient: "from-secondary to-accent" },
+    { id: 2, name: "Jane Cooper", initials: "JC", role: "Food Bank Distribution", time: "5 hours ago", skills: ["Logistics", "Teamwork"], level: "Intermediate", gradient: "from-secondary to-accent" },
     { id: 3, name: "Alex Lee", initials: "AL", role: "Educational Workshop", time: "1 day ago", skills: ["Teaching", "Communication"], level: "New Volunteer", gradient: "from-accent to-primary" },
 ];
 

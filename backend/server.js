@@ -1,9 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const connectDB = require('./src/config/db');
 const userRoutes = require('./src/routes/userRoutes');
-require('dotenv').config();
 
 // Connect to Database
 connectDB();
@@ -17,6 +17,21 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
+app.use((req, res, next) => {
+    const mongoose = require('mongoose');
+    if (mongoose.connection.readyState !== 1 && req.path.startsWith('/api/')) {
+        console.warn(`[DB Offline] Intercepted request to ${req.path}`);
+        // Allow certain GET routes to fail gracefully if needed, or block them
+        if (req.method !== 'GET') {
+            return res.status(503).json({
+                error: "Service Temporarily Unavailable",
+                message: "Database connection is offline. Please try again later or check server logs."
+            });
+        }
+    }
+    next();
+});
+
 app.use('/api/users', userRoutes);
 
 // Placeholder Routes for other modules

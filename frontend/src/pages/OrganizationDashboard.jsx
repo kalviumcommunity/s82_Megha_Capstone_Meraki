@@ -1,5 +1,4 @@
-import { useState } from "react";
-// New modular components
+import { useAuth } from "../context/AuthContext";
 import OrgDashboardHeader from "../components/org/OrgDashboardHeader";
 import StatsCards from "../components/org/StatsCards";
 import AnalyticsChart from "../components/org/AnalyticsChart";
@@ -10,15 +9,17 @@ import ImpactMetrics from "../components/org/ImpactMetrics";
 import QuickActions from "../components/org/QuickActions";
 import ActivityFeed from "../components/org/ActivityFeed";
 
-const orgData = {
-    name: "Green Earth Foundation",
-    tagline: "Building a sustainable future through community action and environmental stewardship.",
-    totalVolunteers: 240,
-    ongoingProjects: 18,
-    impactScore: 92,
-};
-
 export default function OrganizationDashboard() {
+    const { user } = useAuth();
+
+    // Merge global user data with org stats
+    const orgData = {
+        name: user?.name || "Green Earth Foundation",
+        tagline: "Building a sustainable future through community action and environmental stewardship.",
+        totalVolunteers: 240,
+        ongoingProjects: 18,
+        impactScore: 92,
+    };
     return (
         <div className="bg-gray-50/50 min-h-screen">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

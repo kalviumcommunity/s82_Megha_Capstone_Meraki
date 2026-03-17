@@ -1,5 +1,4 @@
-import { useState } from "react";
-// Modular components
+import { useAuth } from "../context/AuthContext";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import VolunteerStats from "../components/profile/VolunteerStats";
 import ContributionGraph from "../components/profile/ContributionGraph";
@@ -12,53 +11,55 @@ import PortfolioSection from "../components/profile/PortfolioSection";
 import CommunityReputation from "../components/profile/CommunityReputation";
 import MonthlyGoals from "../components/profile/MonthlyGoals";
 
-const userData = {
-    name: "Sarah Anderson",
-    location: "San Francisco, CA",
-    email: "sarah.anderson@email.com",
-    joinDate: "January 2024",
-    bio: "Passionate volunteer dedicated to environmental conservation and community development. Love connecting with like-minded people and making a real difference!",
-};
-
-const completedProjectsData = [
-    {
-        id: 1,
-        title: "Community Garden Initiative",
-        organization: "Green Earth Foundation",
-        hours: 45,
-        date: "Jan - Feb 2026",
-        image: "https://images.unsplash.com/photo-1628243989859-db92e2de1340?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-        rating: 5,
-        review: "Sarah was an exceptional volunteer! Her dedication and leadership skills helped us exceed our goals.",
-    },
-    {
-        id: 2,
-        title: "Beach Cleanup Drive",
-        organization: "Ocean Guardians",
-        hours: 24,
-        date: "December 2025",
-        image: "https://images.unsplash.com/photo-1758599668125-e154250f24bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-        rating: 5,
-        review: "Incredibly reliable and passionate about environmental conservation!",
-    },
-    {
-        id: 3,
-        title: "Food Bank Distribution",
-        organization: "City Food Bank",
-        hours: 32,
-        date: "November 2025",
-        image: "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-        rating: 5,
-        review: "Sarah's compassion and efficiency made a huge difference in our operations.",
-    },
-];
-
 export default function UserProfile() {
+    const { user } = useAuth();
+
+    const displayUser = {
+        name: user?.name || "Sarah Anderson", // Fallback for visitor view
+        location: "San Francisco, CA",
+        email: user?.email || "sarah.anderson@email.com",
+        joinDate: "January 2024",
+        bio: "Passionate volunteer dedicated to environmental conservation and community development. Love connecting with like-minded people and making a real difference!",
+    };
+
+    const completedProjectsData = [
+        {
+            id: 1,
+            title: "Community Garden Initiative",
+            organization: "Green Earth Foundation",
+            hours: 45,
+            date: "Jan - Feb 2026",
+            image: "https://images.unsplash.com/photo-1628243989859-db92e2de1340?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+            rating: 5,
+            review: "Sarah was an exceptional volunteer! Her dedication and leadership skills helped us exceed our goals.",
+        },
+        {
+            id: 2,
+            title: "Beach Cleanup Drive",
+            organization: "Ocean Guardians",
+            hours: 24,
+            date: "December 2025",
+            image: "https://images.unsplash.com/photo-1758599668125-e154250f24bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+            rating: 5,
+            review: "Incredibly reliable and passionate about environmental conservation!",
+        },
+        {
+            id: 3,
+            title: "Food Bank Distribution",
+            organization: "City Food Bank",
+            hours: 32,
+            date: "November 2025",
+            image: "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+            rating: 5,
+            review: "Sarah's compassion and efficiency made a huge difference in our operations.",
+        },
+    ];
+
     return (
         <div className="bg-gray-50/30 min-h-screen">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* 1. Impactful Hero Header */}
-                <ProfileHeader user={userData} />
+                <ProfileHeader user={displayUser} />
 
                 {/* 2. Real-time Impact Metrics */}
                 <VolunteerStats />

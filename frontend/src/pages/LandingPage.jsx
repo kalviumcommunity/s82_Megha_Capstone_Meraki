@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { ImageWithFallback } from "../components/ui/ImageWithFallback";
@@ -194,6 +195,7 @@ function TestimonialCard({ t }) {
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function LandingPage() {
+    const { user } = useAuth();
     const [activeTab, setActiveTab] = useState("volunteer");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All");
@@ -256,19 +258,31 @@ export default function LandingPage() {
                             </ul>
 
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Link
-                                    to="/signup"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
-                                >
-                                    Become a Volunteer
-                                    <ArrowRight className="w-5 h-5" />
-                                </Link>
-                                <Link
-                                    to="/signup"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary hover:text-white transition-all duration-300"
-                                >
-                                    Register Your Organization
-                                </Link>
+                                {user ? (
+                                    <Link
+                                        to={user.role === 'Volunteer' ? "/volunteer/dashboard" : "/organization/dashboard"}
+                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
+                                    >
+                                        Go to Dashboard
+                                        <ArrowRight className="w-5 h-5" />
+                                    </Link>
+                                ) : (
+                                    <>
+                                        <Link
+                                            to="/signup"
+                                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
+                                        >
+                                            Become a Volunteer
+                                            <ArrowRight className="w-5 h-5" />
+                                        </Link>
+                                        <Link
+                                            to="/signup"
+                                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary hover:text-white transition-all duration-300"
+                                        >
+                                            Register Your Organization
+                                        </Link>
+                                    </>
+                                )}
                             </div>
                         </div>
 

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
 
 // Modular Onboarding Components
 import SignupLayout from "../components/auth/SignupLayout";
@@ -33,8 +35,18 @@ export default function Register() {
         setStep(2);
     };
 
+    const { login } = useAuth();
+
     const handleInfoNext = (data) => {
         setFormData(data);
+
+        // Auto-login on step 2 completion
+        login({
+            name: data.name,
+            email: data.email,
+            role: role === "volunteer" ? "Volunteer" : "Organization"
+        });
+
         setStep(3);
     };
 

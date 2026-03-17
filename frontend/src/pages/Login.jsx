@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+
 
 // Modular Auth Components
 import AuthLayout from "../components/auth/AuthLayout";
@@ -16,6 +18,8 @@ export default function Login() {
     const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
     const [authType, setAuthType] = useState("volunteer"); // "volunteer" or "organization"
 
+    const { login } = useAuth();
+
     const handleLogin = (credentials) => {
         setIsLoading(true);
         console.log("Logging in with:", credentials, "as", authType);
@@ -23,9 +27,16 @@ export default function Login() {
         // Simulate Auth Delay
         setTimeout(() => {
             setIsLoading(false);
-            // In a real app, redirect based on role or success
+
+            // Set global user state
+            login({
+                name: credentials.email.split('@')[0], // Mock name from email
+                email: credentials.email,
+                role: authType === "volunteer" ? "Volunteer" : "Organization"
+            });
+
             navigate(authType === "volunteer" ? "/volunteer/dashboard" : "/organization/dashboard");
-        }, 2000);
+        }, 1500);
     };
 
     return (

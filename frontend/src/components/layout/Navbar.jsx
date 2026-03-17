@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "lucide-react";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 // Modular Navbar Components
 import NavbarLogo from "./NavbarLogo";
@@ -10,11 +11,9 @@ import MegaMenu from "./MegaMenu";
 import MobileNavigationDrawer from "./MobileNavigationDrawer";
 
 export function Navbar() {
+    const { user, logout: contextLogout } = useAuth();
     const [scrolled, setScrolled] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
-
-    // Initial state is null (guest)
-    const [user, setUser] = useState(null);
 
     // Handle scroll effect for glassmorphism
     useEffect(() => {
@@ -26,8 +25,7 @@ export function Navbar() {
     }, []);
 
     const handleLogout = () => {
-        setUser(null);
-        // Additional logout logic (e.g., clearing localStorage) can go here
+        contextLogout();
     };
 
 

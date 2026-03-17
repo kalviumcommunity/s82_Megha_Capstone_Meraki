@@ -14,38 +14,43 @@ import SecurityLogs from '../components/settings/SecurityLogs';
 import DangerZone from '../components/settings/DangerZone';
 import { userApi } from '../lib/api';
 
+import { useAuth } from '../context/AuthContext';
+
 const Settings = () => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const { user: authUser } = useAuth();
+    const [user, setUser] = useState(authUser || {
+        name: 'Guest User',
+        email: 'guest@meraki.org',
+        role: 'volunteer',
+        settings: {
+            theme: 'light',
+            notifications: { email: true, push: true, weeklyDigest: true },
+            privacy: { publicProfile: true, showHours: true, allowContact: true }
+        }
+    });
+    const [loading, setLoading] = useState(!authUser);
     const [activeSection, setActiveSection] = useState('account');
 
     useEffect(() => {
+        if (authUser) {
+            setUser(authUser);
+            setLoading(false);
+            return;
+        }
+
         const fetchUserData = async () => {
             try {
                 const { data } = await userApi.getMe();
                 setUser(data);
             } catch (error) {
                 console.error('Failed to fetch user data:', error);
-                // For demo purposes, set a mock user if API fails
-                setUser({
-                    name: 'Alex Johnson',
-                    email: 'alex.j@meraki.org',
-                    username: 'alexj',
-                    role: 'volunteer',
-                    bio: 'Passionate about environmental conservation.',
-                    settings: {
-                        theme: 'light',
-                        notifications: { email: true, push: true, weeklyDigest: true },
-                        privacy: { publicProfile: true, showHours: true, allowContact: true }
-                    }
-                });
             } finally {
                 setLoading(false);
             }
         };
 
         fetchUserData();
-    }, []);
+    }, [authUser]);
 
     const handleUpdateUser = async (updatedFields) => {
         try {

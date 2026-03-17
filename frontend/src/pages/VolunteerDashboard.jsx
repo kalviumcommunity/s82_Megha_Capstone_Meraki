@@ -1,5 +1,4 @@
-import { useState, useMemo } from "react";
-// New modular components
+import { useAuth } from "../context/AuthContext";
 import VolunteerHeader from "../components/volunteer/VolunteerHeader";
 import StatsCards from "../components/volunteer/StatsCards";
 import ImpactVisualizer from "../components/volunteer/ImpactVisualizer";
@@ -9,22 +8,26 @@ import OpportunityRecommendations from "../components/volunteer/OpportunityRecom
 import AchievementsPanel from "../components/volunteer/AchievementsPanel";
 import UpcomingEvents from "../components/volunteer/UpcomingEvents";
 
-const userData = {
-    name: "Sarah Miller",
-    totalHours: 156,
-    weeklyHours: 15,
-    projectsCompleted: 12,
-    badges: 8,
-    livesImpacted: "1,247",
-};
-
 export default function VolunteerDashboard() {
+    const { user } = useAuth();
+
+    // Merge global user data with dashboard stats
+    const displayUser = {
+        name: user?.name || "Guest Volunteer",
+        email: user?.email || "guest@meraki.org",
+        totalHours: 156,
+        weeklyHours: 15,
+        projectsCompleted: 12,
+        badges: 8,
+        livesImpacted: "1,247",
+    };
+
     return (
         <div className="bg-gray-50/50 min-h-screen">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
                 {/* Motivational Header */}
-                <VolunteerHeader user={userData} />
+                <VolunteerHeader user={displayUser} />
+
 
                 {/* KPI Section */}
                 <StatsCards />
