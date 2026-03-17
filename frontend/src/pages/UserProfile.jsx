@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import VolunteerStats from "../components/profile/VolunteerStats";
@@ -12,14 +13,41 @@ import CommunityReputation from "../components/profile/CommunityReputation";
 import MonthlyGoals from "../components/profile/MonthlyGoals";
 
 export default function UserProfile() {
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
+    const [isEditing, setIsEditing] = useState(false);
 
-    const displayUser = {
-        name: user?.name || "Sarah Anderson", // Fallback for visitor view
-        location: "San Francisco, CA",
+    // Initial data setup with fallbacks
+    const initialUser = {
+        name: user?.name || "Sarah Anderson",
+        location: user?.location || "San Francisco, CA",
         email: user?.email || "sarah.anderson@email.com",
-        joinDate: "January 2024",
-        bio: "Passionate volunteer dedicated to environmental conservation and community development. Love connecting with like-minded people and making a real difference!",
+        joinDate: user?.joinDate || "January 2024",
+        bio: user?.bio || "Passionate volunteer dedicated to environmental conservation and community development. Love connecting with like-minded people and making a real difference!",
+    };
+
+    const [editedUser, setEditedUser] = useState(initialUser);
+
+    // Sync editedUser when global user changes (e.g., initial load)
+    useEffect(() => {
+        if (user) {
+            setEditedUser(prev => ({
+                ...prev,
+                name: user.name || prev.name,
+                location: user.location || prev.location,
+                email: user.email || prev.email,
+                bio: user.bio || prev.bio,
+            }));
+        }
+    }, [user]);
+
+    const handleSave = () => {
+        updateUser(editedUser);
+        setIsEditing(false);
+    };
+
+    const handleCancel = () => {
+        setEditedUser(initialUser);
+        setIsEditing(false);
     };
 
     const completedProjectsData = [
@@ -59,7 +87,14 @@ export default function UserProfile() {
         <div className="bg-gray-50/30 min-h-screen">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* 1. Impactful Hero Header */}
-                <ProfileHeader user={displayUser} />
+                <ProfileHeader
+                    user={isEditing ? editedUser : initialUser}
+                    isEditing={isEditing}
+                    onToggleEdit={() => setIsEditing(!isEditing)}
+                    onInputChange={(fields) => setEditedUser(prev => ({ ...prev, ...fields }))}
+                    onSave={handleSave}
+                    onCancel={handleCancel}
+                />
 
                 {/* 2. Real-time Impact Metrics */}
                 <VolunteerStats />

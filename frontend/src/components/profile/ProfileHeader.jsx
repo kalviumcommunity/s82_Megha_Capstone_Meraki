@@ -1,6 +1,13 @@
 import { MapPin, Calendar, Mail, Edit, Share2, Award, Zap, CheckCircle2 } from "lucide-react";
 
-export default function ProfileHeader({ user }) {
+export default function ProfileHeader({
+    user,
+    isEditing,
+    onToggleEdit,
+    onInputChange,
+    onSave,
+    onCancel
+}) {
     return (
         <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-gray-100 mb-8 group">
             {/* Cover Image */}
@@ -10,9 +17,14 @@ export default function ProfileHeader({ user }) {
                     alt="Cover"
                     className="w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-1000"
                 />
-                <button className="absolute top-4 right-4 p-2 bg-white/20 backdrop-blur-md rounded-xl text-white border border-white/20 hover:bg-white hover:text-gray-900 transition-all opacity-0 group-hover:opacity-100">
-                    <Edit className="w-4 h-4" />
-                </button>
+                {!isEditing && (
+                    <button
+                        onClick={onToggleEdit}
+                        className="absolute top-4 right-4 p-2 bg-white/20 backdrop-blur-md rounded-xl text-white border border-white/20 hover:bg-white hover:text-gray-900 transition-all opacity-0 group-hover:opacity-100"
+                    >
+                        <Edit className="w-4 h-4" />
+                    </button>
+                )}
             </div>
 
             <div className="px-8 pb-8">
@@ -34,19 +46,41 @@ export default function ProfileHeader({ user }) {
                     {/* Basic Info */}
                     <div className="flex-1 mt-6">
                         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                            <div>
+                            <div className="flex-1">
                                 <div className="flex items-center gap-3 mb-2 flex-wrap">
-                                    <h1 className="text-3xl sm:text-4xl font-black text-gray-900">{user.name}</h1>
-                                    <span className="px-3 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-full border border-primary/20 flex items-center gap-1.5 self-center">
-                                        <Award className="w-3.5 h-3.5" />
-                                        Impact Leader
-                                    </span>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            value={user.name}
+                                            onChange={(e) => onInputChange({ name: e.target.value })}
+                                            className="text-3xl sm:text-4xl font-black text-gray-900 bg-gray-50 border-none focus:ring-2 focus:ring-primary/20 rounded-xl px-2 -ml-2 w-full max-w-md"
+                                            placeholder="Your Name"
+                                        />
+                                    ) : (
+                                        <h1 className="text-3xl sm:text-4xl font-black text-gray-900">{user.name}</h1>
+                                    )}
+                                    {!isEditing && (
+                                        <span className="px-3 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-full border border-primary/20 flex items-center gap-1.5 self-center">
+                                            <Award className="w-3.5 h-3.5" />
+                                            Impact Leader
+                                        </span>
+                                    )}
                                 </div>
 
                                 <div className="flex flex-wrap gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
                                     <div className="flex items-center gap-1.5 backdrop-blur-sm px-2 py-1 rounded-lg">
                                         <MapPin className="w-3.5 h-3.5 text-primary" />
-                                        {user.location}
+                                        {isEditing ? (
+                                            <input
+                                                type="text"
+                                                value={user.location}
+                                                onChange={(e) => onInputChange({ location: e.target.value })}
+                                                className="bg-gray-50 border-none focus:ring-2 focus:ring-primary/20 rounded-lg px-2 -ml-1 text-gray-700"
+                                                placeholder="Location"
+                                            />
+                                        ) : (
+                                            user.location
+                                        )}
                                     </div>
                                     <div className="flex items-center gap-1.5 backdrop-blur-sm px-2 py-1 rounded-lg">
                                         <Calendar className="w-3.5 h-3.5 text-secondary" />
@@ -60,20 +94,53 @@ export default function ProfileHeader({ user }) {
                             </div>
 
                             <div className="flex gap-3 h-fit">
-                                <button className="p-3 border border-gray-100 rounded-2xl text-gray-400 hover:text-primary hover:border-primary/20 hover:bg-primary/5 transition-all">
-                                    <Share2 className="w-5 h-5" />
-                                </button>
-                                <button className="px-8 py-3 bg-gray-900 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-primary hover:shadow-xl hover:shadow-primary/20 hover:-translate-y-0.5 transition-all flex items-center gap-3">
-                                    <Edit className="w-4 h-4" /> Edit Profile
-                                </button>
+                                {!isEditing ? (
+                                    <>
+                                        <button className="p-3 border border-gray-100 rounded-2xl text-gray-400 hover:text-primary hover:border-primary/20 hover:bg-primary/5 transition-all">
+                                            <Share2 className="w-5 h-5" />
+                                        </button>
+                                        <button
+                                            onClick={onToggleEdit}
+                                            className="px-8 py-3 bg-gray-900 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-primary hover:shadow-xl hover:shadow-primary/20 hover:-translate-y-0.5 transition-all flex items-center gap-3"
+                                        >
+                                            <Edit className="w-4 h-4" /> Edit Profile
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button
+                                            onClick={onCancel}
+                                            className="px-6 py-3 border border-gray-200 text-gray-500 text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-gray-50 transition-all"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            onClick={onSave}
+                                            className="px-8 py-3 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/20 hover:bg-primary/90 hover:-translate-y-0.5 transition-all flex items-center gap-3"
+                                        >
+                                            <CheckCircle2 className="w-4 h-4" /> Save Changes
+                                        </button>
+                                    </>
+                                )}
                             </div>
                         </div>
 
                         {/* Bio & Highlights */}
                         <div className="mt-8 flex flex-col xl:flex-row gap-8 items-start xl:items-center">
-                            <p className="flex-1 text-sm font-medium text-gray-500 leading-relaxed max-w-2xl">
-                                {user.bio}
-                            </p>
+                            <div className="flex-1 w-full">
+                                {isEditing ? (
+                                    <textarea
+                                        value={user.bio}
+                                        onChange={(e) => onInputChange({ bio: e.target.value })}
+                                        className="w-full text-sm font-medium text-gray-500 leading-relaxed bg-gray-50 border-none focus:ring-2 focus:ring-primary/20 rounded-xl p-3 h-32 resize-none"
+                                        placeholder="Write a short bio about yourself..."
+                                    />
+                                ) : (
+                                    <p className="text-sm font-medium text-gray-500 leading-relaxed max-w-2xl">
+                                        {user.bio}
+                                    </p>
+                                )}
+                            </div>
 
                             {/* Profile Completion */}
                             <div className="w-full xl:w-64 p-4 bg-gray-50 rounded-2xl border border-gray-100">

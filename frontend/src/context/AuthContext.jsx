@@ -30,8 +30,15 @@ export function AuthProvider({ children }) {
         localStorage.removeItem("meraki_user");
     };
 
+    const updateUser = (updatedData) => {
+        const newUserData = { ...user, ...updatedData };
+        console.log("AuthContext: Updating user data:", newUserData);
+        setUser(newUserData);
+        localStorage.setItem("meraki_user", JSON.stringify(newUserData));
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+        <AuthContext.Provider value={{ user, login, logout, updateUser, isLoading }}>
             {children}
         </AuthContext.Provider>
     );
