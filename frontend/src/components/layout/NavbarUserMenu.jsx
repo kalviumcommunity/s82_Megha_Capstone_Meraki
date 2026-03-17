@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { User, Bell, LayoutDashboard, Settings, LogOut, ChevronDown } from "lucide-react";
+
 
 export default function NavbarUserMenu({ user, onLogout }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +59,13 @@ export default function NavbarUserMenu({ user, onLogout }) {
                         </div>
 
                         <div className="mt-3 pt-3 border-t border-gray-50">
-                            <button className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium text-rose-500 hover:bg-rose-50 rounded-xl transition-all group">
+                            <button
+                                onClick={() => {
+                                    onLogout();
+                                    setIsOpen(false);
+                                }}
+                                className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium text-rose-500 hover:bg-rose-50 rounded-xl transition-all group"
+                            >
                                 <LogOut className="w-4 h-4 group-hover:translate-x-1 transition-transform" /> Sign Out
                             </button>
                         </div>

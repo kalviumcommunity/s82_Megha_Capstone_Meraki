@@ -25,6 +25,12 @@ export function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const handleLogout = () => {
+        setUser(null);
+        // Additional logout logic (e.g., clearing localStorage) can go here
+    };
+
+
     return (
         <nav className={`fixed top-0 left-0 w-full z-[1000] border-b transition-all duration-500 
             ${scrolled
@@ -46,7 +52,7 @@ export function Navbar() {
                         <div className="h-6 w-px bg-gray-100 mx-2 hidden lg:block" />
 
                         {user ? (
-                            <NavbarUserMenu user={user} />
+                            <NavbarUserMenu user={user} onLogout={handleLogout} />
                         ) : (
                             <div className="hidden md:flex items-center gap-3">
                                 <Link
