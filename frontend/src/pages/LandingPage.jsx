@@ -117,6 +117,24 @@ const BADGES = [
 
 const CATEGORIES = ["All", "Environment", "Education", "Healthcare", "Hunger Relief", "Animals", "Arts & Culture"];
 
+const POPULAR_LOCATIONS = [
+    "Bangalore, India",
+    "Mumbai, India",
+    "Delhi, India",
+    "Hyderabad, India",
+    "Chennai, India",
+    "New York, NY",
+    "San Francisco, CA",
+    "London, UK",
+    "Berlin, Germany",
+    "Tokyo, Japan",
+    "Sydney, Australia",
+    "Lagos, Nigeria",
+    "Nairobi, Kenya",
+    "Budapest, Hungary",
+];
+
+
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
 function OpportunityCard({ opp }) {
@@ -180,6 +198,14 @@ export default function LandingPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [selectedLocation, setSelectedLocation] = useState("");
+    const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
+
+    const filteredLocations = POPULAR_LOCATIONS.filter(loc =>
+        loc.toLowerCase().includes(selectedLocation.toLowerCase()) &&
+        selectedLocation.length > 0 &&
+        loc.toLowerCase() !== selectedLocation.toLowerCase()
+    );
+
 
     const journey = activeTab === "volunteer" ? HOW_IT_WORKS_VOLUNTEER : HOW_IT_WORKS_ORG;
 
@@ -298,16 +324,43 @@ export default function LandingPage() {
                                 aria-label="Search opportunities"
                             />
                         </div>
-                        <div className="flex items-center gap-2 px-4 py-2 border-l border-border">
-                            <MapPin className="w-4 h-4 text-muted-foreground" />
+                        <div className="flex-1 flex items-center gap-2 px-4 py-2 border-l border-border relative">
+                            <MapPin className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                             <input
                                 type="text"
                                 placeholder="Location"
                                 value={selectedLocation}
-                                onChange={e => setSelectedLocation(e.target.value)}
-                                className="w-32 text-sm bg-transparent outline-none placeholder:text-muted-foreground"
+                                onChange={e => {
+                                    setSelectedLocation(e.target.value);
+                                    setShowLocationSuggestions(true);
+                                }}
+                                onFocus={() => setShowLocationSuggestions(true)}
+                                onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 200)}
+                                className="flex-1 text-sm bg-transparent outline-none placeholder:text-muted-foreground"
                                 aria-label="Filter by location"
                             />
+
+                            {/* Location Suggestions Dropdown */}
+                            {showLocationSuggestions && filteredLocations.length > 0 && (
+                                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                                    <div className="p-2">
+                                        <p className="px-3 py-1 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Suggestions</p>
+                                        {filteredLocations.slice(0, 5).map(loc => (
+                                            <button
+                                                key={loc}
+                                                onClick={() => {
+                                                    setSelectedLocation(loc);
+                                                    setShowLocationSuggestions(false);
+                                                }}
+                                                className="w-full text-left px-3 py-2 text-sm hover:bg-primary/5 rounded-lg transition-colors flex items-center gap-2 group"
+                                            >
+                                                <MapPin className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
+                                                <span className="font-medium text-gray-700">{loc}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         <div className="flex items-center gap-2 px-4 py-2 border-l border-border">
                             <Filter className="w-4 h-4 text-muted-foreground" />
@@ -408,8 +461,8 @@ export default function LandingPage() {
                                     key={key}
                                     onClick={() => setActiveTab(key)}
                                     className={`px-6 py-3 rounded-lg text-sm font-semibold transition-all ${activeTab === key
-                                            ? "bg-gradient-to-r from-primary to-secondary text-white shadow-md"
-                                            : "text-muted-foreground hover:text-foreground"
+                                        ? "bg-gradient-to-r from-primary to-secondary text-white shadow-md"
+                                        : "text-muted-foreground hover:text-foreground"
                                         }`}
                                 >
                                     {label}
@@ -645,8 +698,8 @@ export default function LandingPage() {
                                     <div
                                         key={rank}
                                         className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${highlight
-                                                ? "border-primary bg-primary/5 font-semibold"
-                                                : "border-border bg-muted/30"
+                                            ? "border-primary bg-primary/5 font-semibold"
+                                            : "border-border bg-muted/30"
                                             }`}
                                     >
                                         <span className="text-lg w-8 text-center">{badge}</span>
