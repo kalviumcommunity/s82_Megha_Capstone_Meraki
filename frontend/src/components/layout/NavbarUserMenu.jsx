@@ -8,8 +8,8 @@ export default function NavbarUserMenu({ user, onLogout }) {
 
     // Mock user if none provided
     const userData = user || {
-        name: "Sarah Anderson",
-        role: "Volunteer",
+        name: "Guest User",
+        role: "Guest",
         avatar: null
     };
 
@@ -42,7 +42,7 @@ export default function NavbarUserMenu({ user, onLogout }) {
                         <div className="p-3 mb-3 bg-gray-50 rounded-2xl">
                             <div className="flex flex-col gap-1">
                                 <span className="text-xs font-black text-gray-900">Signed in as</span>
-                                <span className="text-sm font-medium text-gray-500 truncate">sarah.a@impact.org</span>
+                                <span className="text-sm font-medium text-gray-500 truncate">{userData.email || "guest@meraki.org"}</span>
                             </div>
                         </div>
 

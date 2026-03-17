@@ -13,8 +13,8 @@ export function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-    // Mock user state (In production, replace with real Auth logic)
-    const [user, setUser] = useState({ name: "Sarah Anderson", role: "Volunteer" });
+    // Initial state is null (guest)
+    const [user, setUser] = useState(null);
 
     // Handle scroll effect for glassmorphism
     useEffect(() => {
