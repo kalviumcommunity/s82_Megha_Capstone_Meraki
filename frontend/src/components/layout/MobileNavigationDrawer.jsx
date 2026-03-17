@@ -63,7 +63,7 @@ export default function MobileNavigationDrawer({ isOpen, onClose, user }) {
                                     </div>
                                     <span className="font-black text-gray-900 text-sm">Training Hub</span>
                                 </Link>
-                                <Link to="#" onClick={onClose} className="flex items-center gap-4 group">
+                                <Link to="/training#certifications" onClick={onClose} className="flex items-center gap-4 group">
                                     <div className="w-10 h-10 rounded-2xl bg-green-50 text-green-500 flex items-center justify-center group-hover:scale-110 transition-transform">
                                         <Target className="w-5 h-5" />
                                     </div>

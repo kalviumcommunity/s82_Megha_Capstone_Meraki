@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 // Modular components
 import LearningHeader from "../components/training/LearningHeader";
 import LearningStats from "../components/training/LearningStats";
@@ -110,6 +111,20 @@ const userData = {
 export default function TrainingHub() {
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { hash } = useLocation();
+
+    // Handle hash-based scrolling (e.g., /training#certifications)
+    useEffect(() => {
+        if (hash) {
+            const id = hash.replace("#", "");
+            const element = document.getElementById(id);
+            if (element) {
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+            }
+        }
+    }, [hash]);
 
     const handlePreview = (course) => {
         setSelectedCourse(course);

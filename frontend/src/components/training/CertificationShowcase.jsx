@@ -23,7 +23,7 @@ const certifications = [
 
 export default function CertificationShowcase() {
     return (
-        <div className="bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-sm">
+        <div id="certifications" className="bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-sm">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
                 <div>
                     <h3 className="text-2xl font-black text-gray-900 mb-1 flex items-center gap-2">
