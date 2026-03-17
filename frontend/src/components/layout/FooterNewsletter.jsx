@@ -14,7 +14,7 @@ export default function FooterNewsletter() {
 
     return (
         <div className="flex flex-col gap-4">
-            <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+            <h4 className="text-[10px] font-black text-gray-600 uppercase tracking-[0.2em]">
                 Stay Impactful
             </h4>
             <p className="text-sm font-medium text-gray-500 max-w-xs leading-relaxed">

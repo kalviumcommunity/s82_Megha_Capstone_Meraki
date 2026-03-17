@@ -5,7 +5,7 @@ export default function FooterBrand() {
     return (
         <div className="flex flex-col gap-6 lg:max-w-sm">
             <Link to="/" className="flex items-center gap-3 transition-transform hover:scale-105 active:scale-95 duration-200 group">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
+                <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
                     <Heart className="w-6 h-6 text-white fill-white" />
                 </div>
                 <div>

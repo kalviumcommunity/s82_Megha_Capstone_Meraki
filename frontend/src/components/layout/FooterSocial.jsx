@@ -18,7 +18,7 @@ export default function FooterSocial() {
                         key={social.label}
                         href={social.path}
                         aria-label={social.label}
-                        className={`w-10 h-10 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 transition-all duration-300 transform hover:-translate-y-1 hover:border-transparent ${social.color}`}
+                        className={`w-10 h-10 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-600 transition-all duration-300 transform hover:-translate-y-1 hover:border-transparent ${social.color}`}
                     >
                         <Icon className="w-5 h-5 transition-transform group-hover:scale-110" />
                     </a>

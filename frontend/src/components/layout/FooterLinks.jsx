@@ -44,7 +44,7 @@ export default function FooterLinks() {
                             <li key={link.label}>
                                 <Link
                                     to={link.path}
-                                    className="text-sm font-medium text-gray-500 hover:text-primary transition-colors hover:translate-x-1 inline-block transform duration-200"
+                                    className="text-sm font-medium text-gray-600 hover:text-primary transition-colors hover:translate-x-1 inline-block transform duration-200"
                                 >
                                     {link.label}
                                 </Link>
