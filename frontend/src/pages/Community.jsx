@@ -154,6 +154,7 @@ function HashtagText({ content, hashtags }) {
 }
 
 function CommentSection({ comments, postId }) {
+    const { user } = useAuth();
     const [commentText, setCommentText] = useState("");
 
     return (
@@ -349,6 +350,7 @@ function PostCard({ post }) {
 }
 
 function CreatePostBox({ onPost }) {
+    const { user } = useAuth();
     const [content, setContent] = useState("");
     const [showTips, setShowTips] = useState(false);
 
