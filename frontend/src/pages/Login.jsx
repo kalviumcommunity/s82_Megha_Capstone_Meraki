@@ -11,32 +11,36 @@ import AuthTrustPanel from "../components/auth/AuthTrustPanel";
 import LoginForm from "../components/auth/LoginForm";
 import SocialLoginButtons from "../components/auth/SocialLoginButtons";
 import ForgotPasswordModal from "../components/auth/ForgotPasswordModal";
+import { authApi } from "../lib/api";
 
 export default function Login() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
     const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
     const [authType, setAuthType] = useState("volunteer"); // "volunteer" or "organization"
 
     const { login } = useAuth();
 
-    const handleLogin = (credentials) => {
+    const handleLogin = async (credentials) => {
         setIsLoading(true);
+        setError("");
         console.log("Logging in with:", credentials, "as", authType);
 
-        // Simulate Auth Delay
-        setTimeout(() => {
+        try {
+            const response = await authApi.login(credentials);
+            const { token, ...userData } = response.data;
+            
+            // Ensure role matches what backend expects or just use what backend returns
+            login(userData, token);
+            
+            navigate(userData.role === "volunteer" ? "/volunteer/dashboard" : "/organization/dashboard");
+        } catch (err) {
+            console.error("Login failed:", err);
+            setError(err.response?.data?.message || "Login failed. Please check your credentials.");
+        } finally {
             setIsLoading(false);
-
-            // Set global user state
-            login({
-                name: credentials.email.split('@')[0], // Mock name from email
-                email: credentials.email,
-                role: authType === "volunteer" ? "Volunteer" : "Organization"
-            });
-
-            navigate(authType === "volunteer" ? "/volunteer/dashboard" : "/organization/dashboard");
-        }, 1500);
+        }
     };
 
     return (
@@ -67,12 +71,21 @@ export default function Login() {
             </div>
 
             <AuthHeader
-                title="Sign into Meraki"
-                subtitle="Join thousands of volunteers creating real community impact. Welcome back!"
+                title="Welcome Back"
+                subtitle="Sign in to continue making an impact"
                 type={authType}
             />
 
             <div className="space-y-8">
+                {/* Error Pulse */}
+                {error && (
+                    <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl animate-in fade-in slide-in-from-top-2">
+                        <p className="text-xs font-bold text-rose-500 uppercase tracking-widest text-center">
+                            {error}
+                        </p>
+                    </div>
+                )}
+
                 {/* Core Login Form */}
                 <LoginForm
                     isLoading={isLoading}

@@ -37,17 +37,26 @@ export default function Register() {
 
     const { login } = useAuth();
 
-    const handleInfoNext = (data) => {
+    const handleInfoNext = async (data) => {
+        setIsLoading(true);
+        setError("");
         setFormData(data);
 
-        // Auto-login on step 2 completion
-        login({
-            name: data.name,
-            email: data.email,
-            role: role === "volunteer" ? "Volunteer" : "Organization"
-        });
-
-        setStep(3);
+        try {
+            const response = await authApi.register({
+                ...data,
+                role: role === "volunteer" ? "volunteer" : "organization"
+            });
+            
+            const { token, ...userData } = response.data;
+            login(userData, token);
+            setStep(3);
+        } catch (err) {
+            console.error("Registration failed:", err);
+            setError(err.response?.data?.message || "Registration failed. Email might already be in use.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleInterestsNext = (selectedInterests) => {

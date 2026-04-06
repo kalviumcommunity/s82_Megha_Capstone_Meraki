@@ -6,21 +6,24 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Persist login state for demo (localStorage)
+    // Persist login state (localStorage)
     useEffect(() => {
         const savedUser = localStorage.getItem("meraki_user");
-        if (savedUser) {
-            console.log("AuthContext: Restoring user from localStorage:", savedUser);
+        const savedToken = localStorage.getItem("meraki_token");
+        
+        if (savedUser && savedToken) {
+            console.log("AuthContext: Restoring session from localStorage");
             setUser(JSON.parse(savedUser));
-        } else {
-            console.log("AuthContext: No user found in localStorage");
         }
         setIsLoading(false);
     }, []);
 
-    const login = (userData) => {
-        console.log("AuthContext: Logging in user:", userData);
+    const login = (userData, token) => {
+        console.log("AuthContext: Logging in user:", userData.name);
         setUser(userData);
+        if (token) {
+            localStorage.setItem("meraki_token", token);
+        }
         localStorage.setItem("meraki_user", JSON.stringify(userData));
     };
 
@@ -28,6 +31,7 @@ export function AuthProvider({ children }) {
         console.log("AuthContext: Logging out");
         setUser(null);
         localStorage.removeItem("meraki_user");
+        localStorage.removeItem("meraki_token");
     };
 
     const updateUser = (updatedData) => {
