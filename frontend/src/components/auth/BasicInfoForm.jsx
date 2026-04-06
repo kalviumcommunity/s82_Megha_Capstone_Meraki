@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { User, Mail, Lock, Eye, EyeOff, Building } from "lucide-react";
 
-export default function BasicInfoForm({ role, onNext, onBack, initialData }) {
+export default function BasicInfoForm({ role, onNext, onBack, initialData, isLoading, error }) {
     const [formData, setFormData] = useState(initialData || { name: "", email: "", password: "", confirmPassword: "" });
     const [showPassword, setShowPassword] = useState(false);
     const [focused, setFocused] = useState(null);
@@ -16,9 +16,17 @@ export default function BasicInfoForm({ role, onNext, onBack, initialData }) {
     return (
         <div className="bg-white rounded-[2.5rem] p-8 sm:p-12 border border-gray-100 shadow-sm max-w-xl mx-auto">
             <h3 className="text-2xl font-black text-gray-900 mb-2 leading-tight">Create your account</h3>
-            <p className="text-sm font-medium text-gray-500 mb-10 leading-relaxed">
+            <p className="text-sm font-medium text-gray-500 mb-6 leading-relaxed">
                 Enter your details to join the Meraki community as a <span className="text-primary font-bold">{role}</span>.
             </p>
+
+            {error && (
+                <div className="p-4 mb-6 bg-rose-50 border border-rose-100 rounded-2xl animate-in fade-in slide-in-from-top-2">
+                    <p className="text-xs font-bold text-rose-500 uppercase tracking-widest text-center">
+                        {error}
+                    </p>
+                </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name Field */}
@@ -107,11 +115,11 @@ export default function BasicInfoForm({ role, onNext, onBack, initialData }) {
                 </div>
 
                 <div className="pt-6 flex flex-col sm:flex-row gap-4">
-                    <button type="button" onClick={onBack} className="w-full py-4 bg-gray-50 text-gray-400 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-gray-100">
+                    <button type="button" onClick={onBack} disabled={isLoading} className="w-full py-4 bg-gray-50 text-gray-400 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-gray-100 disabled:opacity-50">
                         Back
                     </button>
-                    <button type="submit" className="w-full py-4 bg-gray-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-primary shadow-xl shadow-black/5 hover:shadow-primary/20 transition-all">
-                        Continue Onboarding
+                    <button type="submit" disabled={isLoading} className={`w-full py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${isLoading ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-gray-900 text-white hover:bg-primary shadow-xl shadow-black/5 hover:shadow-primary/20'}`}>
+                        {isLoading ? "Processing..." : "Continue Onboarding"}
                     </button>
                 </div>
             </form>
