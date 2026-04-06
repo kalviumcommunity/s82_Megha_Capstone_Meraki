@@ -1,6 +1,6 @@
 import { TrendingUp, Award, Zap } from "lucide-react";
 
-export default function VolunteerHeader({ user }) {
+export default function VolunteerHeader({ user, isNew }) {
     return (
         <div className="bg-white border-b border-gray-100 rounded-3xl p-6 mb-8 shadow-sm">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -16,13 +16,17 @@ export default function VolunteerHeader({ user }) {
                     </div>
                     <div>
                         <div className="flex items-center gap-2 mb-1">
-                            <h1 className="text-2xl font-extrabold text-gray-900">Welcome back, {user.name}! 👋</h1>
-                            <span className="px-2 py-0.5 text-[10px] font-bold bg-primary/10 text-primary uppercase tracking-wider rounded-full border border-primary/20">
-                                Gold Volunteer
+                            <h1 className="text-2xl font-extrabold text-gray-900">{isNew ? `Welcome, ${user.name}! 👋` : `Welcome back, ${user.name}! 👋`}</h1>
+                            <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full border ${isNew ? 'bg-gray-100 text-gray-500 border-gray-200' : 'bg-primary/10 text-primary border-primary/20'}`}>
+                                {isNew ? 'New Volunteer' : 'Gold Volunteer'}
                             </span>
                         </div>
                         <p className="text-sm text-gray-500 font-medium">
-                            You've contributed <span className="text-primary font-bold">{user.totalHours} hours</span> of impact — keep making a difference.
+                            {isNew ? (
+                                <span>Ready to start making an impact? Let's find your first project.</span>
+                            ) : (
+                                <span>You've contributed <span className="text-primary font-bold">{user.totalHours} hours</span> of impact — keep making a difference.</span>
+                            )}
                         </p>
                     </div>
                 </div>
@@ -32,19 +36,21 @@ export default function VolunteerHeader({ user }) {
                     <div className="flex-1">
                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Weekly Momentum</p>
                         <div className="flex items-center gap-2">
-                            <span className="text-lg font-extrabold text-gray-900">+{user.weeklyHours}h</span>
-                            <span className="flex items-center text-xs font-bold text-green-500">
-                                <TrendingUp className="w-3 h-3 mr-1" />
-                                12%
-                            </span>
+                            <span className="text-lg font-extrabold text-gray-900">{isNew ? '+0h' : `+${user.weeklyHours}h`}</span>
+                            {!isNew && (
+                                <span className="flex items-center text-xs font-bold text-green-500">
+                                    <TrendingUp className="w-3 h-3 mr-1" />
+                                    12%
+                                </span>
+                            )}
                         </div>
                     </div>
                     <div className="h-10 w-px bg-gray-200" />
                     <div className="flex-1">
                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Next Milestone</p>
                         <div className="flex items-center gap-2">
-                            <Award className="w-4 h-4 text-amber-500" />
-                            <span className="text-sm font-bold text-gray-900">35h left</span>
+                            <Award className={`w-4 h-4 ${isNew ? 'text-gray-300' : 'text-amber-500'}`} />
+                            <span className="text-sm font-bold text-gray-900">{isNew ? 'First 5h' : '35h left'}</span>
                         </div>
                     </div>
                 </div>

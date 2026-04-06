@@ -6,7 +6,7 @@ const badges = [
     { title: "Eco Guardian", earned: "Earned 2 weeks ago", icon: Shield, color: "text-green-500", bg: "bg-green-100", gradient: "from-green-400 to-emerald-500" },
 ];
 
-export default function AchievementsPanel() {
+export default function AchievementsPanel({ isNew }) {
     return (
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-3xl p-6 border border-primary/10">
             <h3 className="font-extrabold text-gray-900 text-lg mb-6 flex items-center gap-2">
@@ -18,13 +18,13 @@ export default function AchievementsPanel() {
                 {badges.map((badge) => {
                     const Icon = badge.icon;
                     return (
-                        <div key={badge.title} className="flex items-center gap-4 group">
-                            <div className={`w-14 h-14 bg-gradient-to-br ${badge.gradient} rounded-2xl flex items-center justify-center shadow-lg shadow-black/5 group-hover:scale-110 transition-transform`}>
-                                <Icon className="w-7 h-7 text-white fill-white/20" />
+                        <div key={badge.title} className="flex items-center gap-4 group opacity-100">
+                            <div className={`w-14 h-14 bg-gradient-to-br ${isNew ? 'from-gray-200 to-gray-300' : badge.gradient} rounded-2xl flex items-center justify-center shadow-lg shadow-black/5 group-hover:scale-110 transition-transform`}>
+                                <Icon className={`w-7 h-7 ${isNew ? 'text-gray-400 fill-transparent' : 'text-white fill-white/20'}`} />
                             </div>
                             <div>
-                                <h4 className="font-bold text-gray-900 text-sm">{badge.title}</h4>
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{badge.earned}</p>
+                                <h4 className={`font-bold text-sm ${isNew ? 'text-gray-400' : 'text-gray-900'}`}>{badge.title}</h4>
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{isNew ? "Locked" : badge.earned}</p>
                             </div>
                         </div>
                     );
@@ -34,15 +34,15 @@ export default function AchievementsPanel() {
             {/* Next badge progress */}
             <div className="mt-8 pt-6 border-t border-primary/10">
                 <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] font-extrabold text-primary uppercase tracking-widest">Next: Master Mentor</span>
-                    <span className="text-[10px] font-bold text-gray-500">80%</span>
+                    <span className="text-[10px] font-extrabold text-primary uppercase tracking-widest">Next: Rising Star</span>
+                    <span className="text-[10px] font-bold text-gray-500">{isNew ? '0%' : '80%'}</span>
                 </div>
                 <div className="w-full h-1.5 bg-white/50 rounded-full overflow-hidden">
-                    <div className="h-full bg-primary rounded-full" style={{ width: "80%" }} />
+                    <div className="h-full bg-primary rounded-full transition-all duration-1000" style={{ width: isNew ? "0%" : "80%" }} />
                 </div>
                 <div className="flex items-center gap-1.5 mt-3 text-[10px] font-bold text-gray-500">
                     <TrendingUp className="w-3.5 h-3.5 text-green-500" />
-                    <span>2 more hours to go!</span>
+                    <span>{isNew ? 'Complete 1 project to go!' : '2 more hours to go!'}</span>
                 </div>
             </div>
         </div>

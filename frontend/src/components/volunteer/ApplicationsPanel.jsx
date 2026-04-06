@@ -30,8 +30,8 @@ const statusStyles = {
     "Pending Interview": "bg-blue-100 text-blue-700 border-blue-200",
 };
 
-export default function ApplicationsPanel() {
-    const [apps, setApps] = useState(initialApplications);
+export default function ApplicationsPanel({ isNew }) {
+    const [apps, setApps] = useState(isNew ? [] : initialApplications);
 
     const withdrawApp = (id) => {
         setApps(apps.filter(app => app.id !== id));

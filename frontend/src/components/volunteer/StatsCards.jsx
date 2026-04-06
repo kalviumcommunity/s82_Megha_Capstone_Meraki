@@ -45,10 +45,12 @@ function TrendIcon({ change }) {
     return <Minus className="w-4 h-4 text-gray-400" />;
 }
 
-export default function StatsCards() {
+export default function StatsCards({ isNew }) {
+    const displayStats = isNew ? stats.map(s => ({ ...s, value: "0", change: 0, note: "Start your journey today" })) : stats;
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            {stats.map((stat) => {
+            {displayStats.map((stat) => {
                 const Icon = stat.icon;
                 const isPositive = stat.change > 0;
                 const isNegative = stat.change < 0;

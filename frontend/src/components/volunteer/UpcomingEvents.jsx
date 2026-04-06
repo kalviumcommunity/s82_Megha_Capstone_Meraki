@@ -26,8 +26,9 @@ const initialEvents = [
     },
 ];
 
-export default function UpcomingEvents() {
-    const [events, setEvents] = useState(initialEvents);
+export default function UpcomingEvents({ isNew }) {
+    const defaultEvents = isNew ? initialEvents.map(e => ({ ...e, rsvped: false })) : initialEvents;
+    const [events, setEvents] = useState(defaultEvents);
 
     const toggleRSVP = (id) => {
         setEvents(events.map(ev =>

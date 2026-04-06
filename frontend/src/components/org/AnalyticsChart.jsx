@@ -52,11 +52,24 @@ const CustomTooltip = ({ active, payload, label }) => {
     return null;
 };
 
-export default function AnalyticsChart() {
+export default function AnalyticsChart({ isNew }) {
     const [activeMetric, setActiveMetric] = useState("volunteers");
     const [timeRange, setTimeRange] = useState("month");
 
-    const data = useMemo(() => allData[timeRange], [timeRange]);
+    // Memoize the base data
+    const baseData = useMemo(() => allData[timeRange], [timeRange]);
+    
+    // Memoize final mapped data to inject zeros if new
+    const data = useMemo(() => {
+        if (!isNew) return baseData;
+        return baseData.map(item => ({
+            ...item,
+            volunteers: 0,
+            hours: 0,
+            applications: 0
+        }));
+    }, [baseData, isNew]);
+
     const metric = metrics.find((m) => m.key === activeMetric);
 
     return (

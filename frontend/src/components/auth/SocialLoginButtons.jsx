@@ -17,7 +17,8 @@ export default function SocialLoginButtons({ action = "login" }) {
             login({
                 name: `${provider} Demo`,
                 email: `hello@${provider.toLowerCase()}-demo.com`,
-                role: "Volunteer"
+                role: "Volunteer",
+                isNewUser: action === "signup"
             }, "demo_oauth_token");
             navigate("/volunteer/dashboard");
         }, 1200);

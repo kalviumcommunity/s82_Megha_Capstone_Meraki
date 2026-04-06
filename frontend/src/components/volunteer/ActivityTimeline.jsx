@@ -39,7 +39,22 @@ const activities = [
     },
 ];
 
-export default function ActivityTimeline() {
+export default function ActivityTimeline({ isNew }) {
+    if (isNew) {
+        return (
+            <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm h-full flex flex-col items-center justify-center text-center">
+                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                    <Clock className="w-8 h-8 text-gray-300" />
+                </div>
+                <h3 className="font-extrabold text-gray-900 text-lg mb-2">No Activity Yet</h3>
+                <p className="text-sm text-gray-500 mb-6">Your impact timeline will start growing once you join opportunities.</p>
+                <button className="px-6 py-3 bg-primary text-white text-xs font-bold rounded-2xl hover:bg-primary/90 transition-all uppercase tracking-widest shadow-lg shadow-primary/25">
+                    Explore Needs
+                </button>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm h-full">
             <h3 className="font-extrabold text-gray-900 text-lg mb-6 flex items-center gap-2">

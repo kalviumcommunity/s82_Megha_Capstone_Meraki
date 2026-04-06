@@ -22,41 +22,44 @@ export default function VolunteerDashboard() {
         livesImpacted: "1,247",
     };
 
+    // Check if user is a new user
+    const isNew = Boolean(user?.isNewUser);
+
     return (
         <div className="bg-gray-50/50 min-h-screen">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Motivational Header */}
-                <VolunteerHeader user={displayUser} />
+                <VolunteerHeader user={displayUser} isNew={isNew} />
 
 
                 {/* KPI Section */}
-                <StatsCards />
+                <StatsCards isNew={isNew} />
 
                 <div className="grid lg:grid-cols-3 gap-8">
                     {/* Main Content (2/3) */}
                     <div className="lg:col-span-2 space-y-8">
 
                         {/* Personalized Recommendations */}
-                        <OpportunityRecommendations />
+                        <OpportunityRecommendations isNew={isNew} />
 
                         {/* Application Tracking */}
-                        <ApplicationsPanel />
+                        <ApplicationsPanel isNew={isNew} />
 
                         {/* Recent Activity Timeline */}
-                        <ActivityTimeline />
+                        <ActivityTimeline isNew={isNew} />
                     </div>
 
                     {/* Sidebar Content (1/3) */}
                     <div className="space-y-8">
 
                         {/* Visual Impact Summary */}
-                        <ImpactVisualizer />
+                        <ImpactVisualizer isNew={isNew} />
 
                         {/* Registered & Suggested Events */}
-                        <UpcomingEvents />
+                        <UpcomingEvents isNew={isNew} />
 
                         {/* Achievement Showcase */}
-                        <AchievementsPanel />
+                        <AchievementsPanel isNew={isNew} />
 
                         {/* Motivation Tip / Community Quote */}
                         <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden group">

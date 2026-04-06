@@ -51,7 +51,7 @@ export default function Register() {
             });
             
             const { token, ...userData } = response.data;
-            login(userData, token);
+            login({ ...userData, isNewUser: true }, token);
             setStep(3);
         } catch (err) {
             console.error("Registration failed:", err);
@@ -62,7 +62,8 @@ export default function Register() {
                 login({
                     name: data.name,
                     email: data.email,
-                    role: role === "volunteer" ? "Volunteer" : "Organization"
+                    role: role === "volunteer" ? "Volunteer" : "Organization",
+                    isNewUser: true
                 }, "demo_token_123");
                 setStep(3);
                 return;
