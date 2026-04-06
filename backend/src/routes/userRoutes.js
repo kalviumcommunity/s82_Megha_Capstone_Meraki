@@ -5,7 +5,8 @@ const {
     updateUserProfile,
     changePassword,
     registerUser,
-    loginUser
+    loginUser,
+    getUserDashboardStats
 } = require('../controllers/userController');
 const { protect } = require('../middleware/auth');
 
@@ -19,5 +20,8 @@ router.route('/me')
     .patch(protect, updateUserProfile);
 
 router.post('/security/password', protect, changePassword);
+
+// Dashboard routes
+router.get('/dashboard', protect, getUserDashboardStats);
 
 module.exports = router;

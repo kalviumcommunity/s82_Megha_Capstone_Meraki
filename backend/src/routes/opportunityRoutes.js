@@ -4,7 +4,10 @@ const {
     getOpportunities,
     getOpportunityById,
     createOpportunity,
-    applyForOpportunity
+    applyForOpportunity,
+    updateOpportunity,
+    deleteOpportunity,
+    updateApplicationStatus
 } = require('../controllers/opportunityController');
 const { protect } = require('../middleware/auth');
 
@@ -13,8 +16,11 @@ router.route('/')
     .post(protect, createOpportunity);
 
 router.route('/:id')
-    .get(getOpportunityById);
+    .get(getOpportunityById)
+    .put(protect, updateOpportunity)
+    .delete(protect, deleteOpportunity);
 
 router.post('/:id/apply', protect, applyForOpportunity);
+router.patch('/:id/applicants/:userId', protect, updateApplicationStatus);
 
 module.exports = router;

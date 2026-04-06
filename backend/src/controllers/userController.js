@@ -158,10 +158,63 @@ const loginUser = async (req, res) => {
     }
 };
 
+// @desc    Get user dashboard stats
+// @route   GET /api/users/dashboard
+// @access  Private
+const getUserDashboardStats = async (req, res) => {
+    try {
+        const Opportunity = require('../models/Opportunity');
+        const Event = require('../models/Event');
+        
+        let stats = {};
+
+        if (req.user.role === 'volunteer') {
+            // Find opportunities where user applied
+            const appliedOpps = await Opportunity.find({ 'applicants.user': req.user._id });
+            const acceptedOpps = appliedOpps.filter(opp => {
+                const app = opp.applicants.find(a => a.user.toString() === req.user._id.toString());
+                return app && app.status === 'Accepted';
+            });
+
+            // Find registered events
+            const events = await Event.countDocuments({ attendees: req.user._id });
+
+            stats = {
+                totalHours: acceptedOpps.reduce((acc, curr) => acc + (curr.hoursPerWeek || 0), 0) * 4, // basic mock calc
+                projectsCompleted: acceptedOpps.length,
+                activeApplications: appliedOpps.length - acceptedOpps.length,
+                eventsAttended: events
+            };
+        } else if (req.user.role === 'organization') {
+            // Find organization's created opportunities
+            const opps = await Opportunity.find({ organization: req.user._id });
+            
+            // Total applicants across all opportunities
+            const totalApplicants = opps.reduce((acc, curr) => acc + curr.applicants.length, 0);
+            
+            // Accepted applicants (volunteers)
+            const activeVolunteers = opps.reduce((acc, curr) => {
+                return acc + curr.applicants.filter(a => a.status === 'Accepted').length;
+            }, 0);
+
+            stats = {
+                ongoingProjects: opps.length,
+                totalApplicants,
+                activeVolunteers
+            };
+        }
+
+        res.json(stats);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getUserProfile,
     updateUserProfile,
     changePassword,
     registerUser,
-    loginUser
+    loginUser,
+    getUserDashboardStats
 };

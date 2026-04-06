@@ -91,9 +91,60 @@ const addComment = async (req, res) => {
     }
 };
 
+// @desc    Update post
+// @route   PUT /api/community/:id
+// @access  Private
+const updatePost = async (req, res) => {
+    try {
+        let post = await Post.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        if (post.user.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ message: 'User not authorized' });
+        }
+
+        post = await Post.findByIdAndUpdate(
+            req.params.id,
+            { content: req.body.content, tags: req.body.tags, category: req.body.category, image: req.body.image },
+            { new: true, runValidators: true }
+        );
+
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Delete post
+// @route   DELETE /api/community/:id
+// @access  Private
+const deletePost = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        if (post.user.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ message: 'User not authorized' });
+        }
+
+        await post.deleteOne();
+        res.status(200).json({ message: 'Post removed' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getPosts,
     createPost,
     likePost,
-    addComment
+    addComment,
+    updatePost,
+    deletePost
 };
