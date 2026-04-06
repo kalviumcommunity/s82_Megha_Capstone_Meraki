@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { User, Mail, Lock, Eye, EyeOff, Building } from "lucide-react";
+import SocialLoginButtons from "./SocialLoginButtons";
 
 export default function BasicInfoForm({ role, onNext, onBack, initialData, isLoading, error }) {
     const [formData, setFormData] = useState(initialData || { name: "", email: "", password: "", confirmPassword: "" });
@@ -19,6 +20,19 @@ export default function BasicInfoForm({ role, onNext, onBack, initialData, isLoa
             <p className="text-sm font-medium text-gray-500 mb-6 leading-relaxed">
                 Enter your details to join the Meraki community as a <span className="text-primary font-bold">{role}</span>.
             </p>
+
+            <div className="mb-6">
+                <SocialLoginButtons action="signup" />
+            </div>
+
+            <div className="relative mb-6">
+                <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-100"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                    <span className="px-4 bg-white text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Or continue with email</span>
+                </div>
+            </div>
 
             {error && (
                 <div className="p-4 mb-6 bg-rose-50 border border-rose-100 rounded-2xl animate-in fade-in slide-in-from-top-2">
