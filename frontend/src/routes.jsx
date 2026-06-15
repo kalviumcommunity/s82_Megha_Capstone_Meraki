@@ -13,6 +13,7 @@ import TrainingHub from "./pages/TrainingHub";
 import DonationPage from "./pages/DonationPage";
 import UserProfile from "./pages/UserProfile";
 import Settings from "./pages/Settings";
+import OtpVerification from "./pages/OtpVerification";
 
 export const router = createBrowserRouter([
     {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
         children: [
             { path: "/signin", Component: Login },
             { path: "/signup", Component: Register },
+            { path: "/otp-verify", Component: OtpVerification },
         ],
     },
     {
