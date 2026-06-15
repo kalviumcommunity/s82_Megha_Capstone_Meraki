@@ -16,7 +16,8 @@
         "jsonwebtoken": "^9.0.3",
         "meraki-monorepo": "file:..",
         "mongoose": "^9.3.0",
-        "morgan": "^1.10.0"
+        "morgan": "^1.10.0",
+        "twilio": "^6.0.2"
     },
     "devDependencies": {
         "jest": "^29.7.0",

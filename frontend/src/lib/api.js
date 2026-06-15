@@ -32,4 +32,9 @@ export const userApi = {
     changePassword: (passwords) => api.post('/users/security/password', passwords),
 };
 
+export const otpApi = {
+    sendOTP: (phoneNumber) => api.post('/otp/send', { phoneNumber }),
+    verifyOTP: (phoneNumber, code) => api.post('/otp/verify', { phoneNumber, code }),
+};
+
 export default api;
