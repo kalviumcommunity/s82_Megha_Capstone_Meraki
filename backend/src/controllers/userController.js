@@ -210,11 +210,53 @@ const getUserDashboardStats = async (req, res) => {
     }
 };
 
+// @desc    Auth user with Google token
+// @route   POST /api/users/google
+// @access  Public
+const googleLogin = async (req, res) => {
+    const { idToken, email, name, profilePicture } = req.body;
+
+    if (!idToken || !email) {
+        return res.status(400).json({ message: "Google token and email are required" });
+    }
+
+    try {
+        // Find or create user
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            // Generate a random password since password field is required in database schema
+            const randomPassword = Math.random().toString(36).substring(2, 15);
+            user = new User({
+                name: name || email.split('@')[0],
+                email: email,
+                password: randomPassword,
+                role: 'volunteer',
+                profilePicture: profilePicture || ''
+            });
+            await user.save();
+        }
+
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            token: generateToken(user._id),
+            message: "Successfully authenticated via Google"
+        });
+    } catch (error) {
+        console.error("Google Auth Error:", error);
+        res.status(500).json({ message: "Google Authentication failed", error: error.message });
+    }
+};
+
 module.exports = {
     getUserProfile,
     updateUserProfile,
     changePassword,
     registerUser,
     loginUser,
+    googleLogin,
     getUserDashboardStats
 };

@@ -6,6 +6,7 @@ const {
     changePassword,
     registerUser,
     loginUser,
+    googleLogin,
     getUserDashboardStats
 } = require('../controllers/userController');
 const { protect } = require('../middleware/auth');
@@ -13,6 +14,7 @@ const { protect } = require('../middleware/auth');
 // Auth routes
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+router.post('/google', googleLogin);
 
 // Profile/Settings routes
 router.route('/me')
