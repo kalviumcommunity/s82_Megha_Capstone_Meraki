@@ -1,5 +1,7 @@
 # Meraki Platform
 
+**Deployed Link**: [https://meraki-ngo-platform.netlify.app/](https://meraki-ngo-platform.netlify.app/)
+
 Meraki is a modern platform designed to bridge the gap between passionate volunteers and community-driven organizations (NGOs). Our mission is to amplify social impact through seamless collaboration, transparent tracking, and purpose-driven engagement.
 
 ---
