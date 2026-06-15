@@ -1,0 +1,21 @@
+meta {
+  name: Create Opportunity
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/opportunities
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Community Planting Day",
+    "description": "Join us to plant trees in the local community park.",
+    "location": "Central Park",
+    "date": "2026-07-20",
+    "hoursRequired": 4
+  }
+}
