@@ -8,6 +8,7 @@ const opportunityRoutes = require('./src/routes/opportunityRoutes');
 const communityRoutes = require('./src/routes/communityRoutes');
 const trainingRoutes = require('./src/routes/trainingRoutes');
 const donationRoutes = require('./src/routes/donationRoutes');
+const otpRoutes = require('./src/routes/otpRoutes');
 
 // Connect to Database
 connectDB();
@@ -42,6 +43,7 @@ app.use('/api/opportunities', opportunityRoutes);
 app.use('/api/community', communityRoutes);
 app.use('/api/hub', trainingRoutes);
 app.use('/api/donations', donationRoutes);
+app.use('/api/otp', otpRoutes);
 
 // General API info
 app.get('/', (req, res) => {
