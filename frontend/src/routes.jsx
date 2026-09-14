@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import DashboardLayout from "./components/layout/DashboardLayout";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -32,18 +33,23 @@ export const router = createBrowserRouter([
     },
     {
         // Authenticated pages with Sidebar + Navbar
-        Component: DashboardLayout,
+        Component: ProtectedRoute,
         children: [
-            { path: "/volunteer/dashboard", Component: VolunteerDashboard },
-            { path: "/organization/dashboard", Component: OrganizationDashboard },
-            { path: "/opportunities", Component: OpportunityExplorer },
-            { path: "/community", Component: Community },
-            { path: "/events", Component: Events },
-            { path: "/training", Component: TrainingHub },
-            { path: "/donations", Component: DonationPage },
-            { path: "/profile", Component: UserProfile },
-            { path: "/profile/:userId", Component: UserProfile },
-            { path: "/settings", Component: Settings },
+            {
+                Component: DashboardLayout,
+                children: [
+                    { path: "/volunteer/dashboard", Component: VolunteerDashboard },
+                    { path: "/organization/dashboard", Component: OrganizationDashboard },
+                    { path: "/opportunities", Component: OpportunityExplorer },
+                    { path: "/community", Component: Community },
+                    { path: "/events", Component: Events },
+                    { path: "/training", Component: TrainingHub },
+                    { path: "/donations", Component: DonationPage },
+                    { path: "/profile", Component: UserProfile },
+                    { path: "/profile/:userId", Component: UserProfile },
+                    { path: "/settings", Component: Settings },
+                ],
+            },
         ],
     },
 ]);

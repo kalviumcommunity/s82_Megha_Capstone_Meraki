@@ -221,23 +221,44 @@ const googleLogin = async (req, res) => {
     }
 
     try {
+        let verifiedEmail = email;
+        let verifiedName = name;
+        let verifiedPicture = profilePicture;
+
+        // If GOOGLE_CLIENT_ID is provided, verify token with OAuth2Client
+        if (process.env.GOOGLE_CLIENT_ID) {
+            const { OAuth2Client } = require('google-auth-library');
+            const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+            const ticket = await client.verifyIdToken({
+                idToken: idToken,
+                audience: process.env.GOOGLE_CLIENT_ID,
+            });
+            const payload = ticket.getPayload();
+            if (!payload || !payload.email) {
+                return res.status(401).json({ message: "Invalid Google token payload" });
+            }
+            verifiedEmail = payload.email;
+            verifiedName = payload.name || name;
+            verifiedPicture = payload.picture || profilePicture;
+        }
+
         // Find or create user
-        let user = await User.findOne({ email });
+        let user = await User.findOne({ email: verifiedEmail });
 
         if (!user) {
             // Generate a random password since password field is required in database schema
             const randomPassword = Math.random().toString(36).substring(2, 15);
             user = new User({
-                name: name || email.split('@')[0],
-                email: email,
+                name: verifiedName || verifiedEmail.split('@')[0],
+                email: verifiedEmail,
                 password: randomPassword,
                 role: 'volunteer',
-                profilePicture: profilePicture || ''
+                profilePicture: verifiedPicture || ''
             });
             await user.save();
         }
 
-        res.json({
+        return res.json({
             _id: user._id,
             name: user.name,
             email: user.email,
@@ -247,7 +268,7 @@ const googleLogin = async (req, res) => {
         });
     } catch (error) {
         console.error("Google Auth Error:", error);
-        res.status(500).json({ message: "Google Authentication failed", error: error.message });
+        return res.status(500).json({ message: "Google Authentication failed", error: error.message });
     }
 };
 

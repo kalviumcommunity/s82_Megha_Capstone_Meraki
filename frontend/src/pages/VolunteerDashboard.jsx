@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { userApi } from "../lib/api";
 import VolunteerHeader from "../components/volunteer/VolunteerHeader";
 import StatsCards from "../components/volunteer/StatsCards";
 import ImpactVisualizer from "../components/volunteer/ImpactVisualizer";
@@ -10,14 +12,27 @@ import UpcomingEvents from "../components/volunteer/UpcomingEvents";
 
 export default function VolunteerDashboard() {
     const { user } = useAuth();
+    const [stats, setStats] = useState(null);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const res = await userApi.getDashboardStats();
+                setStats(res.data);
+            } catch (err) {
+                console.warn("Could not fetch user dashboard stats:", err);
+            }
+        };
+        fetchStats();
+    }, []);
 
     // Merge global user data with dashboard stats
     const displayUser = {
-        name: user?.name || "Guest Volunteer",
-        email: user?.email || "guest@meraki.org",
-        totalHours: 156,
+        name: user?.name || "Volunteer",
+        email: user?.email || "volunteer@meraki.org",
+        totalHours: stats?.totalHours ?? 156,
         weeklyHours: 15,
-        projectsCompleted: 12,
+        projectsCompleted: stats?.projectsCompleted ?? 12,
         badges: 8,
         livesImpacted: "1,247",
     };

@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { userApi } from "../lib/api";
 import OrgDashboardHeader from "../components/org/OrgDashboardHeader";
 import StatsCards from "../components/org/StatsCards";
 import AnalyticsChart from "../components/org/AnalyticsChart";
@@ -11,14 +13,27 @@ import ActivityFeed from "../components/org/ActivityFeed";
 
 export default function OrganizationDashboard() {
     const { user } = useAuth();
+    const [stats, setStats] = useState(null);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const res = await userApi.getDashboardStats();
+                setStats(res.data);
+            } catch (err) {
+                console.warn("Could not fetch org dashboard stats:", err);
+            }
+        };
+        fetchStats();
+    }, []);
 
     // Merge global user data with org stats
     const isNew = Boolean(user?.isNewUser);
     const orgData = {
-        name: user?.name || "Green Earth Foundation",
-        tagline: "Building a sustainable future through community action and environmental stewardship.",
-        totalVolunteers: isNew ? 0 : 240,
-        ongoingProjects: isNew ? 0 : 18,
+        name: user?.name || "Organization",
+        tagline: user?.description || "Building a sustainable future through community action.",
+        totalVolunteers: stats?.activeVolunteers ?? (isNew ? 0 : 240),
+        ongoingProjects: stats?.ongoingProjects ?? (isNew ? 0 : 18),
         impactScore: isNew ? 0 : 92,
     };
     return (

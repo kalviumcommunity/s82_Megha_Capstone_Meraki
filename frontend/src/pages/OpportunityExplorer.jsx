@@ -1,5 +1,6 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { opportunityApi } from "../lib/api";
 import { ImageWithFallback } from "../components/ui/ImageWithFallback";
 import {
     Search, MapPin, Clock, Filter, Heart, Users, ArrowRight, X,
@@ -426,6 +427,7 @@ function EmptyState({ onClear }) {
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function OpportunityExplorer() {
+    const [apiOpps, setApiOpps] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [selectedLocation, setSelectedLocation] = useState("All");
@@ -434,6 +436,44 @@ export default function OpportunityExplorer() {
     const [selectedSkill, setSelectedSkill] = useState("All");
     const [sortBy, setSortBy] = useState("Most Recent");
     const [previewOpp, setPreviewOpp] = useState(null);
+
+    useEffect(() => {
+        const fetchOpportunities = async () => {
+            try {
+                const res = await opportunityApi.getAll();
+                if (res.data && res.data.length > 0) {
+                    const formatted = res.data.map((opp, idx) => ({
+                        id: opp._id || idx,
+                        title: opp.title,
+                        organization: opp.organizationName || opp.organization?.name || "Organization",
+                        orgInitials: (opp.organizationName || "OG").substring(0, 2).toUpperCase(),
+                        orgColor: "from-blue-400 to-indigo-600",
+                        category: opp.category || "General",
+                        location: opp.location || "Remote",
+                        hours: opp.hoursPerWeek ? `${opp.hoursPerWeek} hrs/week` : "Flexible",
+                        commitment: opp.type || "Part-time",
+                        mode: opp.type === "Remote" ? "Remote" : "On-site",
+                        skillLevel: "Intermediate",
+                        urgent: false,
+                        featured: idx % 2 === 0,
+                        image: "https://images.unsplash.com/photo-1628243989859-db92e2de1340?w=800&q=80",
+                        description: opp.description || "",
+                        skills: opp.skillsRequired || ["Volunteering"],
+                        impact: opp.impactArea || "Community Support",
+                        capacity: { filled: opp.applicants?.length || 0, total: opp.spotsAvailable || 10 },
+                        volunteers: opp.applicants?.length || 0,
+                        postedDays: 1,
+                    }));
+                    setApiOpps(formatted);
+                }
+            } catch (err) {
+                console.warn("Using fallback opportunities, backend error:", err);
+            }
+        };
+        fetchOpportunities();
+    }, []);
+
+    const allOpportunitiesList = apiOpps.length > 0 ? apiOpps : OPPORTUNITIES;
 
     const clearAll = useCallback(() => {
         setSearchQuery("");
@@ -446,7 +486,7 @@ export default function OpportunityExplorer() {
     }, []);
 
     const filtered = useMemo(() => {
-        let list = OPPORTUNITIES.filter(o => {
+        let list = allOpportunitiesList.filter(o => {
             const q = searchQuery.toLowerCase();
             return (
                 (!q || o.title.toLowerCase().includes(q) || o.description.toLowerCase().includes(q) || o.organization.toLowerCase().includes(q) || o.skills.some(s => s.toLowerCase().includes(q))) &&

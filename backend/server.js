@@ -61,6 +61,16 @@ app.get('/', (req, res) => {
     });
 });
 
+// Global Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error(`[Unhandled Error] ${err.message}`, err.stack);
+    const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+    res.status(statusCode).json({
+        message: err.message || 'Internal Server Error',
+        stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+    });
+});
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

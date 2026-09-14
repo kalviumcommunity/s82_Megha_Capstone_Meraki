@@ -1,6 +1,7 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { communityApi } from "../lib/api";
 import { ImageWithFallback } from "../components/ui/ImageWithFallback";
 import {
     Heart, MessageCircle, Share2, Send, Image as ImageIcon, Smile,
@@ -434,8 +435,48 @@ export default function CommunityFeed() {
     const [posts, setPosts] = useState(INITIAL_POSTS);
     const [activeTag, setActiveTag] = useState(null);
 
-    const handleNewPost = useCallback((content) => {
-        const newPost = {
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const res = await communityApi.getPosts();
+                if (res.data && res.data.length > 0) {
+                    const formatted = res.data.map(p => ({
+                        id: p._id,
+                        author: p.authorName || p.user?.name || "Community Member",
+                        role: p.user?.role || "Volunteer",
+                        avatar: (p.authorName || "C").charAt(0).toUpperCase(),
+                        avatarGradient: "from-primary to-secondary",
+                        verified: p.user?.role === "organization",
+                        badge: p.user?.role === "organization" ? "✅ Verified NGO" : "🌟 Volunteer",
+                        time: "Recently",
+                        location: null,
+                        content: p.content,
+                        hashtags: p.tags || [],
+                        image: p.image || null,
+                        likes: p.likes?.length || 0,
+                        comments: p.comments?.map((c, idx) => ({
+                            id: c._id || idx,
+                            author: c.authorName || "User",
+                            avatar: (c.authorName || "U").charAt(0).toUpperCase(),
+                            avatarGradient: "from-blue-400 to-indigo-500",
+                            text: c.content,
+                            time: "Just now"
+                        })) || [],
+                        shares: 0,
+                        saved: false,
+                        impact: null,
+                    }));
+                    setPosts(formatted);
+                }
+            } catch (err) {
+                console.warn("Using fallback posts, error fetching community feed:", err);
+            }
+        };
+        fetchPosts();
+    }, []);
+
+    const handleNewPost = useCallback(async (content) => {
+        const tempPost = {
             id: Date.now(),
             author: user?.name || "You",
             role: user?.role || "Volunteer",
@@ -454,8 +495,14 @@ export default function CommunityFeed() {
             saved: false,
             impact: null,
         };
-        setPosts(prev => [newPost, ...prev]);
-    }, []);
+        setPosts(prev => [tempPost, ...prev]);
+
+        try {
+            await communityApi.createPost({ content });
+        } catch (err) {
+            console.error("Failed to persist post to server:", err);
+        }
+    }, [user]);
 
     const filteredPosts = activeTag
         ? posts.filter(p => p.hashtags.includes(activeTag) || p.content.includes(activeTag))
