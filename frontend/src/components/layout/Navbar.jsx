@@ -9,6 +9,7 @@ import NavbarSearch from "./NavbarSearch";
 import NavbarUserMenu from "./NavbarUserMenu";
 import MegaMenu from "./MegaMenu";
 import MobileNavigationDrawer from "./MobileNavigationDrawer";
+import ThemeLanguageBar from "./ThemeLanguageBar";
 
 export function Navbar() {
     const { user, logout: contextLogout } = useAuth();
@@ -44,10 +45,12 @@ export function Navbar() {
                     </div>
 
                     {/* Right: Search, User, Actions */}
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-4">
                         <NavbarSearch />
 
-                        <div className="h-6 w-px bg-gray-100 mx-2 hidden lg:block" />
+                        <div className="h-6 w-px bg-gray-100 dark:bg-gray-800 mx-1 hidden lg:block" />
+
+                        <ThemeLanguageBar />
 
                         {user ? (
                             <NavbarUserMenu user={user} onLogout={handleLogout} />

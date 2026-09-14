@@ -10,9 +10,17 @@ import OpportunityRecommendations from "../components/volunteer/OpportunityRecom
 import AchievementsPanel from "../components/volunteer/AchievementsPanel";
 import UpcomingEvents from "../components/volunteer/UpcomingEvents";
 
+import CertificateModal from "../components/volunteer/CertificateModal";
+import LeaderboardModal from "../components/volunteer/LeaderboardModal";
+import ChatDrawer from "../components/chat/ChatDrawer";
+import { Award, Trophy, MessageSquare } from "lucide-react";
+
 export default function VolunteerDashboard() {
     const { user } = useAuth();
     const [stats, setStats] = useState(null);
+    const [isCertOpen, setIsCertOpen] = useState(false);
+    const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -41,8 +49,36 @@ export default function VolunteerDashboard() {
     const isNew = Boolean(user?.isNewUser);
 
     return (
-        <div className="bg-gray-50/50 min-h-screen">
+        <div className="bg-gray-50/50 dark:bg-gray-900/50 min-h-screen">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {/* Feature Quick Actions Banner */}
+                <div className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-wrap items-center justify-between gap-4">
+                    <div className="flex items-center gap-2">
+                        <span className="px-3 py-1 bg-primary/10 text-primary font-black text-xs rounded-full uppercase">Volunteer Tools</span>
+                        <span className="text-xs font-extrabold text-gray-700 dark:text-gray-200">Accelerate your social impact portfolio</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                        <button
+                            onClick={() => setIsCertOpen(true)}
+                            className="px-4 py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
+                        >
+                            <Award className="w-4 h-4" /> Download Certificate
+                        </button>
+                        <button
+                            onClick={() => setIsLeaderboardOpen(true)}
+                            className="px-4 py-2 bg-amber-500/10 hover:bg-amber-500 text-amber-600 hover:text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
+                        >
+                            <Trophy className="w-4 h-4" /> XP Leaderboard
+                        </button>
+                        <button
+                            onClick={() => setIsChatOpen(true)}
+                            className="px-4 py-2 bg-blue-500/10 hover:bg-blue-500 text-blue-600 hover:text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
+                        >
+                            <MessageSquare className="w-4 h-4" /> NGO Direct Chat
+                        </button>
+                    </div>
+                </div>
+
                 {/* Motivational Header */}
                 <VolunteerHeader user={displayUser} isNew={isNew} />
 
@@ -87,6 +123,11 @@ export default function VolunteerDashboard() {
                         </div>
                     </div>
                 </div>
+
+                {/* Modals & Slide-overs */}
+                <CertificateModal isOpen={isCertOpen} onClose={() => setIsCertOpen(false)} />
+                <LeaderboardModal isOpen={isLeaderboardOpen} onClose={() => setIsLeaderboardOpen(false)} />
+                <ChatDrawer isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
             </div>
         </div>
     );

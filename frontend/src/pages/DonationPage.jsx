@@ -11,6 +11,7 @@ import DonationForm from "../components/donations/DonationForm";
 import DonorSocialProof from "../components/donations/DonorSocialProof";
 import DonorLeaderboard from "../components/donations/DonorLeaderboard";
 import TransparencySection from "../components/donations/TransparencySection";
+import PaymentModal from "../components/donations/PaymentModal";
 
 // Enhanced Campaign Data
 const campaigns = [
@@ -101,6 +102,7 @@ const campaigns = [
 
 export default function DonationPage() {
     const [selectedCampaignId, setSelectedCampaignId] = useState(null);
+    const [isPaymentOpen, setIsPaymentOpen] = useState(false);
 
     const selectedCampaign = campaigns.find(c => c.id === selectedCampaignId);
 
@@ -110,7 +112,7 @@ export default function DonationPage() {
             <Navbar />
 
             {/* Enhanced Hero */}
-            <DonationHero />
+            <DonationHero onDonateClick={() => setIsPaymentOpen(true)} />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-10 relative z-20">
 
@@ -124,9 +126,12 @@ export default function DonationPage() {
                         <div>
                             <div className="flex items-center justify-between mb-8">
                                 <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Active Campaigns</h2>
-                                <span className="text-sm font-semibold text-primary bg-primary/10 px-3 py-1.5 rounded-full border border-primary/20">
-                                    {campaigns.length} Projects
-                                </span>
+                                <button
+                                    onClick={() => setIsPaymentOpen(true)}
+                                    className="px-4 py-2 bg-primary text-white font-bold text-xs rounded-xl shadow-md hover:bg-primary/90 transition-all"
+                                >
+                                    Donate Direct
+                                </button>
                             </div>
 
                             <div className="space-y-8">
@@ -135,7 +140,10 @@ export default function DonationPage() {
                                         key={campaign.id}
                                         campaign={campaign}
                                         isSelected={selectedCampaignId === campaign.id}
-                                        onSelect={setSelectedCampaignId}
+                                        onSelect={(id) => {
+                                            setSelectedCampaignId(id);
+                                            setIsPaymentOpen(true);
+                                        }}
                                     />
                                 ))}
                             </div>
@@ -148,7 +156,7 @@ export default function DonationPage() {
                     {/* Right Column: Sticky form & Social Proof */}
                     <div className="w-full lg:w-[35%] order-1 lg:order-2 space-y-6">
                         {/* The interactive form */}
-                        <DonationForm selectedCampaign={selectedCampaign} />
+                        <DonationForm selectedCampaign={selectedCampaign} onDonateClick={() => setIsPaymentOpen(true)} />
 
                         {/* Live Updates & Social Proof */}
                         <DonorSocialProof />
@@ -158,6 +166,12 @@ export default function DonationPage() {
                     </div>
                 </div>
             </div>
+
+            <PaymentModal
+                isOpen={isPaymentOpen}
+                onClose={() => setIsPaymentOpen(false)}
+                campaignTitle={selectedCampaign?.title}
+            />
 
             {/* Footer */}
             <Footer />
