@@ -114,6 +114,29 @@ export default function LoginForm({ onSubmit, isLoading, onOpenForgot }) {
                     </div>
                 )}
             </button>
+
+            {/* Quick Demo Login Buttons */}
+            <div className="pt-2 space-y-2">
+                <div className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+                    ⚡ Fast Demo Access
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                    <button
+                        type="button"
+                        onClick={() => onSubmit({ email: "volunteer@meraki.org", password: "password123" })}
+                        className="py-2.5 px-3 bg-emerald-50 border border-emerald-100 text-emerald-700 hover:bg-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all shadow-sm"
+                    >
+                        Demo Volunteer 🙋‍♀️
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => onSubmit({ email: "org@meraki.org", password: "password123" })}
+                        className="py-2.5 px-3 bg-blue-50 border border-blue-100 text-blue-700 hover:bg-blue-100 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all shadow-sm"
+                    >
+                        Demo NGO 🏢
+                    </button>
+                </div>
+            </div>
         </form>
     );
 }
