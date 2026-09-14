@@ -1,9 +1,10 @@
-import { ChevronDown, Zap, Calendar, Users, GraduationCap, Target, Heart } from "lucide-react";
+import { ChevronDown, Zap, Calendar, Users, GraduationCap, Target, Heart, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const platformLinks = [
     { label: "Find Opportunities", path: "/opportunities", icon: Zap, desc: "Connect with projects", color: "text-amber-500 bg-amber-50" },
+    { label: "Leaderboard & XP", path: "/leaderboard", icon: Trophy, desc: "Top volunteer hall of fame", color: "text-amber-600 bg-amber-100" },
     { label: "Events Calendar", path: "/events", icon: Calendar, desc: "Join community workshops", color: "text-primary bg-primary/5" },
     { label: "Community Feed", path: "/community", icon: Users, desc: "See the latest impact", color: "text-secondary bg-secondary/5" }
 ];

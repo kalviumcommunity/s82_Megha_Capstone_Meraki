@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { User, Bell, LayoutDashboard, Settings, LogOut, ChevronDown } from "lucide-react";
+import { User, Bell, LayoutDashboard, Settings, LogOut, ChevronDown, Trophy } from "lucide-react";
 
 
 export default function NavbarUserMenu({ user, onLogout }) {
@@ -52,6 +52,9 @@ export default function NavbarUserMenu({ user, onLogout }) {
                             </Link>
                             <Link to={userData.role === 'Volunteer' ? '/volunteer/dashboard' : '/organization/dashboard'} onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 hover:text-primary hover:bg-primary/5 rounded-xl transition-all group">
                                 <LayoutDashboard className="w-4 h-4 group-hover:scale-110 transition-transform" /> Dashboard
+                            </Link>
+                            <Link to="/leaderboard" onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 hover:text-primary hover:bg-primary/5 rounded-xl transition-all group">
+                                <Trophy className="w-4 h-4 group-hover:scale-110 transition-transform text-amber-500" /> Leaderboard & XP
                             </Link>
                             <Link to="/settings" onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 hover:text-primary hover:bg-primary/5 rounded-xl transition-all group">
                                 <Settings className="w-4 h-4 group-hover:scale-110 transition-transform" /> Settings
