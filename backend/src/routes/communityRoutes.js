@@ -4,6 +4,7 @@ const {
     getPosts,
     createPost,
     likePost,
+    reactToPost,
     addComment,
     updatePost,
     deletePost
@@ -19,6 +20,7 @@ router.route('/:id')
     .delete(protect, deletePost);
 
 router.post('/:id/like', protect, likePost);
+router.post('/:id/react', protect, reactToPost);
 router.post('/:id/comment', protect, addComment);
 
 module.exports = router;

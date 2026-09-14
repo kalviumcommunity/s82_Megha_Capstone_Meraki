@@ -272,6 +272,26 @@ const googleLogin = async (req, res) => {
     }
 };
 
+// @desc    Get top volunteers & orgs for Leaderboard
+// @route   GET /api/users/leaderboard
+// @access  Public
+const getLeaderboard = async (req, res) => {
+    try {
+        const topVolunteers = await User.find({ role: 'volunteer' })
+            .select('name profilePicture xp level rankTitle badges skills')
+            .sort({ xp: -1 })
+            .limit(10);
+
+        const topOrganizations = await User.find({ role: 'organization' })
+            .select('name profilePicture description mission website')
+            .limit(10);
+
+        res.json({ volunteers: topVolunteers, organizations: topOrganizations });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getUserProfile,
     updateUserProfile,
@@ -279,5 +299,6 @@ module.exports = {
     registerUser,
     loginUser,
     googleLogin,
-    getUserDashboardStats
+    getUserDashboardStats,
+    getLeaderboard
 };

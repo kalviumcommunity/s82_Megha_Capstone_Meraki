@@ -7,9 +7,12 @@ const {
     applyForOpportunity,
     updateOpportunity,
     deleteOpportunity,
-    updateApplicationStatus
+    updateApplicationStatus,
+    getMatchedOpportunities
 } = require('../controllers/opportunityController');
 const { protect } = require('../middleware/auth');
+
+router.get('/matched', protect, getMatchedOpportunities);
 
 router.route('/')
     .get(getOpportunities)

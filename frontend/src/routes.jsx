@@ -15,6 +15,7 @@ import DonationPage from "./pages/DonationPage";
 import UserProfile from "./pages/UserProfile";
 import Settings from "./pages/Settings";
 import OtpVerification from "./pages/OtpVerification";
+import Leaderboard from "./pages/Leaderboard";
 
 export const router = createBrowserRouter([
     {
@@ -42,6 +43,7 @@ export const router = createBrowserRouter([
                     { path: "/organization/dashboard", Component: OrganizationDashboard },
                     { path: "/opportunities", Component: OpportunityExplorer },
                     { path: "/community", Component: Community },
+                    { path: "/leaderboard", Component: Leaderboard },
                     { path: "/events", Component: Events },
                     { path: "/training", Component: TrainingHub },
                     { path: "/donations", Component: DonationPage },

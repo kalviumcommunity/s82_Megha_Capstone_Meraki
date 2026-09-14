@@ -11,7 +11,6 @@ import DonationForm from "../components/donations/DonationForm";
 import DonorSocialProof from "../components/donations/DonorSocialProof";
 import DonorLeaderboard from "../components/donations/DonorLeaderboard";
 import TransparencySection from "../components/donations/TransparencySection";
-import PaymentModal from "../components/donations/PaymentModal";
 
 // Enhanced Campaign Data
 const campaigns = [
@@ -102,9 +101,22 @@ const campaigns = [
 
 export default function DonationPage() {
     const [selectedCampaignId, setSelectedCampaignId] = useState(null);
-    const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+    const [volunteerHours, setVolunteerHours] = useState(10);
+    const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+    const [donationAmount, setDonationAmount] = useState(50);
+    const [paymentSuccess, setPaymentSuccess] = useState(false);
 
     const selectedCampaign = campaigns.find(c => c.id === selectedCampaignId);
+    const matchedDollarValue = volunteerHours * 25; // $25 corporate match per volunteer hour
+
+    const handleProcessPayment = (e) => {
+        e.preventDefault();
+        setPaymentSuccess(true);
+        setTimeout(() => {
+            setPaymentSuccess(false);
+            setIsPaymentModalOpen(false);
+        }, 2500);
+    };
 
     return (
         <div className="bg-background min-h-screen">
@@ -112,12 +124,43 @@ export default function DonationPage() {
             <Navbar />
 
             {/* Enhanced Hero */}
-            <DonationHero onDonateClick={() => setIsPaymentOpen(true)} />
+            <DonationHero />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-10 relative z-20">
 
                 {/* Visual Impact Stats */}
                 <ImpactVisualization />
+
+                {/* Corporate Hour Match Calculator */}
+                <div className="mb-12 bg-gradient-to-r from-emerald-600 to-teal-700 rounded-3xl p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div className="space-y-2">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full text-xs font-black uppercase tracking-widest text-white">
+                            ✨ Micro-Donation Match Engine
+                        </div>
+                        <h3 className="text-2xl font-black text-white">Turn Your Volunteer Hours Into Corporate Dollars!</h3>
+                        <p className="text-sm text-emerald-100 font-medium max-w-xl">
+                            Corporate partners automatically match <strong>$25 in direct funding</strong> for every 1 hour you volunteer on Meraki.
+                        </p>
+                    </div>
+
+                    <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 text-center flex-shrink-0 space-y-3 w-full md:w-auto">
+                        <div className="text-xs font-black uppercase tracking-widest text-emerald-200">Set Logged Hours</div>
+                        <div className="flex items-center justify-center gap-3">
+                            <input
+                                type="number"
+                                min="1"
+                                max="100"
+                                value={volunteerHours}
+                                onChange={(e) => setVolunteerHours(Number(e.target.value))}
+                                className="w-20 px-3 py-1.5 bg-white text-gray-900 rounded-xl text-lg font-black text-center"
+                            />
+                            <span className="text-sm font-black text-white">Hours</span>
+                        </div>
+                        <div className="pt-2 text-2xl font-black text-amber-300">
+                            = ${matchedDollarValue} Matched!
+                        </div>
+                    </div>
+                </div>
 
                 <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 relative items-start">
 
@@ -126,12 +169,9 @@ export default function DonationPage() {
                         <div>
                             <div className="flex items-center justify-between mb-8">
                                 <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Active Campaigns</h2>
-                                <button
-                                    onClick={() => setIsPaymentOpen(true)}
-                                    className="px-4 py-2 bg-primary text-white font-bold text-xs rounded-xl shadow-md hover:bg-primary/90 transition-all"
-                                >
-                                    Donate Direct
-                                </button>
+                                <span className="text-sm font-semibold text-primary bg-primary/10 px-3 py-1.5 rounded-full border border-primary/20">
+                                    {campaigns.length} Projects
+                                </span>
                             </div>
 
                             <div className="space-y-8">
@@ -142,7 +182,7 @@ export default function DonationPage() {
                                         isSelected={selectedCampaignId === campaign.id}
                                         onSelect={(id) => {
                                             setSelectedCampaignId(id);
-                                            setIsPaymentOpen(true);
+                                            setIsPaymentModalOpen(true);
                                         }}
                                     />
                                 ))}
@@ -156,7 +196,10 @@ export default function DonationPage() {
                     {/* Right Column: Sticky form & Social Proof */}
                     <div className="w-full lg:w-[35%] order-1 lg:order-2 space-y-6">
                         {/* The interactive form */}
-                        <DonationForm selectedCampaign={selectedCampaign} onDonateClick={() => setIsPaymentOpen(true)} />
+                        <DonationForm
+                            selectedCampaign={selectedCampaign}
+                            onDonateClick={() => setIsPaymentModalOpen(true)}
+                        />
 
                         {/* Live Updates & Social Proof */}
                         <DonorSocialProof />
@@ -167,11 +210,61 @@ export default function DonationPage() {
                 </div>
             </div>
 
-            <PaymentModal
-                isOpen={isPaymentOpen}
-                onClose={() => setIsPaymentOpen(false)}
-                campaignTitle={selectedCampaign?.title}
-            />
+            {/* Payment Modal */}
+            {isPaymentModalOpen && (
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-gray-100 animate-in fade-in zoom-in-95 space-y-6 relative">
+                        <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                            <h3 className="font-black text-xl text-gray-900">Secure Payment Checkout</h3>
+                            <button onClick={() => setIsPaymentModalOpen(false)} className="text-gray-400 hover:text-gray-600 font-bold">✕</button>
+                        </div>
+
+                        {paymentSuccess ? (
+                            <div className="py-8 text-center space-y-3">
+                                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto animate-bounce">
+                                    🎉
+                                </div>
+                                <h4 className="font-black text-2xl text-gray-900">Payment Successful!</h4>
+                                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Thank you for funding real-world impact.</p>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleProcessPayment} className="space-y-4">
+                                <div className="p-3 bg-gray-50 rounded-2xl border border-gray-100 text-xs font-bold text-gray-500">
+                                    Campaign: <span className="text-gray-900 font-extrabold">{selectedCampaign?.title || "General Impact Fund"}</span>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs font-black uppercase text-gray-500 tracking-wider">Select Donation Amount</label>
+                                    <div className="grid grid-cols-4 gap-2">
+                                        {[25, 50, 100, 250].map(amt => (
+                                            <button
+                                                key={amt}
+                                                type="button"
+                                                onClick={() => setDonationAmount(amt)}
+                                                className={`py-2 rounded-xl text-xs font-black border transition-all ${donationAmount === amt ? 'bg-primary text-white border-primary shadow-sm' : 'bg-white text-gray-700 border-gray-200'}`}
+                                            >
+                                                ${amt}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100 text-xs font-bold text-emerald-700 flex items-center justify-between">
+                                    <span>Razorpay / Stripe Gateway:</span>
+                                    <span className="font-black text-sm text-emerald-800">${donationAmount}.00 USD</span>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    className="w-full py-3.5 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-black text-sm uppercase tracking-wider hover:shadow-lg transition-all"
+                                >
+                                    Confirm & Pay ${donationAmount} 💳
+                                </button>
+                            </form>
+                        )}
+                    </div>
+                </div>
+            )}
 
             {/* Footer */}
             <Footer />

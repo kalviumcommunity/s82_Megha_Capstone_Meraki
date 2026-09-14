@@ -64,6 +64,43 @@ const likePost = async (req, res) => {
     }
 };
 
+// @desc    React to a post with emoji
+// @route   POST /api/community/:id/react
+// @access  Private
+const reactToPost = async (req, res) => {
+    try {
+        const { emoji } = req.body;
+        const post = await Post.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        if (!post.reactions) post.reactions = [];
+
+        const existingIndex = post.reactions.findIndex(
+            r => r.user.toString() === req.user._id.toString()
+        );
+
+        if (existingIndex > -1) {
+            if (post.reactions[existingIndex].emoji === emoji) {
+                // Toggle off
+                post.reactions.splice(existingIndex, 1);
+            } else {
+                // Update emoji
+                post.reactions[existingIndex].emoji = emoji || '❤️';
+            }
+        } else {
+            post.reactions.push({ user: req.user._id, emoji: emoji || '❤️' });
+        }
+
+        await post.save();
+        res.json(post);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 // @desc    Comment on a post
 // @route   POST /api/community/:id/comment
 // @access  Private
@@ -144,6 +181,7 @@ module.exports = {
     getPosts,
     createPost,
     likePost,
+    reactToPost,
     addComment,
     updatePost,
     deletePost

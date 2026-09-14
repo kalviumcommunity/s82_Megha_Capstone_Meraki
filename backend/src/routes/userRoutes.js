@@ -7,7 +7,8 @@ const {
     registerUser,
     loginUser,
     googleLogin,
-    getUserDashboardStats
+    getUserDashboardStats,
+    getLeaderboard
 } = require('../controllers/userController');
 const { protect } = require('../middleware/auth');
 
@@ -15,6 +16,9 @@ const { protect } = require('../middleware/auth');
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/google', googleLogin);
+
+// Public Leaderboard route
+router.get('/leaderboard', getLeaderboard);
 
 // Profile/Settings routes
 router.route('/me')

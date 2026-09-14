@@ -13,6 +13,16 @@ const userSchema = mongoose.Schema({
     skills: [String],
     interests: [String],
     availability: String,
+    // Gamification & Recognition
+    xp: { type: Number, default: 450 },
+    level: { type: Number, default: 3 },
+    rankTitle: { type: String, default: 'Community Catalyst' },
+    badges: [{
+        title: String,
+        icon: String,
+        description: String,
+        unlockedAt: { type: Date, default: Date.now }
+    }],
     // Organization specific
     description: String,
     mission: String,

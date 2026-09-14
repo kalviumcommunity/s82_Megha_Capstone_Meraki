@@ -184,6 +184,39 @@ const updateApplicationStatus = async (req, res) => {
     }
 };
 
+// @desc    Get AI Smart Matched opportunities for logged in volunteer
+// @route   GET /api/opportunities/matched
+// @access  Private/Volunteer
+const getMatchedOpportunities = async (req, res) => {
+    try {
+        const opportunities = await Opportunity.find({ status: 'Open' }).populate('organization', 'name profilePicture');
+
+        const userSkills = (req.user.skills || []).map(s => s.toLowerCase());
+        const userInterests = (req.user.interests || []).map(i => i.toLowerCase());
+
+        const matched = opportunities.map(opp => {
+            let score = 50; // base match
+
+            // Skill overlap (+30%)
+            const skillOverlap = (opp.skillsRequired || []).filter(s => userSkills.includes(s.toLowerCase())).length;
+            if (skillOverlap > 0) score += Math.min(30, skillOverlap * 15);
+
+            // Category match (+20%)
+            if (userInterests.includes((opp.category || '').toLowerCase())) score += 20;
+
+            const matchPercentage = Math.min(99, Math.max(65, score));
+            return {
+                ...opp.toObject(),
+                matchPercentage
+            };
+        }).sort((a, b) => b.matchPercentage - a.matchPercentage);
+
+        res.json(matched);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getOpportunities,
     getOpportunityById,
@@ -191,5 +224,6 @@ module.exports = {
     applyForOpportunity,
     updateOpportunity,
     deleteOpportunity,
-    updateApplicationStatus
+    updateApplicationStatus,
+    getMatchedOpportunities
 };

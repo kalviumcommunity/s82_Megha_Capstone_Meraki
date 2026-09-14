@@ -10,6 +10,10 @@ const postSchema = mongoose.Schema({
     content: { type: String, required: true },
     image: String,
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    reactions: [{
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        emoji: { type: String, default: '❤️' }
+    }],
     comments: [{
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         authorName: { type: String, required: true },
